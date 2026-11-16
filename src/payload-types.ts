@@ -70,6 +70,7 @@ export interface Config {
     users: User;
     media: Media;
     sponsors: Sponsor;
+    'sponsor-inquiries': SponsorInquiry;
     'payload-kv': PayloadKv;
     'payload-locked-documents': PayloadLockedDocument;
     'payload-preferences': PayloadPreference;
@@ -80,6 +81,7 @@ export interface Config {
     users: UsersSelect<false> | UsersSelect<true>;
     media: MediaSelect<false> | MediaSelect<true>;
     sponsors: SponsorsSelect<false> | SponsorsSelect<true>;
+    'sponsor-inquiries': SponsorInquiriesSelect<false> | SponsorInquiriesSelect<true>;
     'payload-kv': PayloadKvSelect<false> | PayloadKvSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
     'payload-preferences': PayloadPreferencesSelect<false> | PayloadPreferencesSelect<true>;
@@ -204,6 +206,21 @@ export interface Sponsor {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "sponsor-inquiries".
+ */
+export interface SponsorInquiry {
+  id: number;
+  name: string;
+  company: string;
+  email: string;
+  phone?: string | null;
+  message: string;
+  status: 'new' | 'answered' | 'archived';
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-kv".
  */
 export interface PayloadKv {
@@ -237,6 +254,10 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'sponsors';
         value: number | Sponsor;
+      } | null)
+    | ({
+        relationTo: 'sponsor-inquiries';
+        value: number | SponsorInquiry;
       } | null);
   globalSlug?: string | null;
   user: {
@@ -332,6 +353,20 @@ export interface SponsorsSelect<T extends boolean = true> {
   description?: T;
   website?: T;
   order?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "sponsor-inquiries_select".
+ */
+export interface SponsorInquiriesSelect<T extends boolean = true> {
+  name?: T;
+  company?: T;
+  email?: T;
+  phone?: T;
+  message?: T;
+  status?: T;
   updatedAt?: T;
   createdAt?: T;
 }

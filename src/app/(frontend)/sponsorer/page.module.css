@@ -18,6 +18,11 @@
   gap: 72px;
 }
 
+.cta {
+  margin-top: 80px;
+  text-align: center;
+}
+
 .empty {
   text-align: center;
   font-size: 1rem;
@@ -35,5 +40,9 @@
 
   .list {
     gap: 48px;
+  }
+
+  .cta {
+    margin-top: 56px;
   }
 }
