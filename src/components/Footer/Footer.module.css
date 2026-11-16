@@ -40,11 +40,6 @@
   color: var(--color-pink);
 }
 
-.social a:focus-visible {
-  outline: 3px solid var(--color-pink);
-  outline-offset: 2px;
-}
-
 .icon {
   width: 28px;
   height: 28px;

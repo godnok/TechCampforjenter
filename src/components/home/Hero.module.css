@@ -41,8 +41,3 @@
 .videoButton:hover {
   background: rgba(0, 0, 0, 0.75);
 }
-
-.videoButton:focus-visible {
-  outline: 3px solid var(--color-pink);
-  outline-offset: 2px;
-}

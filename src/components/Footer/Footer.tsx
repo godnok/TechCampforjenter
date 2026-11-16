@@ -37,28 +37,31 @@ export async function Footer() {
   return (
     <footer className={styles.footer}>
       {socialLinks.length > 0 && (
-        <ul className={styles.social}>
-          {socialLinks.map((link) => {
-            const platform = platforms[link.platform]
-            if (!platform) return null
-            const { label, Icon } = platform
+        // nav + aria-label: et eget, navngitt område for skjermlesere
+        <nav aria-label="Sosiale medier">
+          <ul className={styles.social}>
+            {socialLinks.map((link) => {
+              const platform = platforms[link.platform]
+              if (!platform) return null
+              const { label, Icon } = platform
 
-            return (
-              <li key={link.id}>
-                <a
-                  href={link.url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  // Ikonet har ingen tekst, så aria-label forteller skjermlesere hvor lenken går
-                  aria-label={`Go'nok på ${label}`}
-                >
-                  {/* aria-hidden: ikonet er pynt, navnet står i aria-label */}
-                  <Icon aria-hidden className={styles.icon} />
-                </a>
-              </li>
-            )
-          })}
-        </ul>
+              return (
+                <li key={link.id}>
+                  <a
+                    href={link.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    // Ikonet har ingen tekst, så aria-label forteller skjermlesere hvor lenken går
+                    aria-label={`Go'nok på ${label} (åpnes i ny fane)`}
+                  >
+                    {/* aria-hidden: ikonet er pynt, navnet står i aria-label */}
+                    <Icon aria-hidden className={styles.icon} />
+                  </a>
+                </li>
+              )
+            })}
+          </ul>
+        </nav>
       )}
 
       <p>Go&apos;nok sin Tech camp for jenter © {year}</p>
