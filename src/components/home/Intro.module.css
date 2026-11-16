@@ -15,14 +15,14 @@
 }
 
 .text h2 {
-  font-size: 36px;
+  font-size: 2.25rem;
   margin-bottom: 64px;
 }
 
 .text p {
   font-family: var(--font-body);
   font-weight: 500;
-  font-size: 20px;
+  font-size: 1.25rem;
   line-height: 1.4;
   margin: 0; /* ingen luft mellom avsnittene, som i Figma */
 }
@@ -55,11 +55,11 @@
   }
 
   .text h2 {
-    font-size: 24px;
+    font-size: 1.5rem;
     margin-bottom: 24px;
   }
 
   .text p {
-    font-size: 16px;
+    font-size: 1rem;
   }
 }

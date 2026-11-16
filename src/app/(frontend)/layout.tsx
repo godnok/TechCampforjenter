@@ -17,7 +17,7 @@ const russoOne = Russo_One({
 })
 
 const poppins = Poppins({
-  weight: ['400', '500'],
+  weight: ['400', '500', '600'], // 600 = SemiBold, brukes til «go'nok» i sitatet på Om oss
   subsets: ['latin'],
   variable: '--font-poppins',
   display: 'swap',

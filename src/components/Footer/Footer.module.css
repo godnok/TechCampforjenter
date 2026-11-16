@@ -12,7 +12,7 @@
   margin: 0;
   font-family: var(--font-light);
   font-weight: 300;
-  font-size: 20px;
+  font-size: 1.25rem;
 }
 
 @media (max-width: 768px) {
@@ -21,6 +21,6 @@
   }
 
   .footer p {
-    font-size: 14px;
+    font-size: 0.875rem;
   }
 }
