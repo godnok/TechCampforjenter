@@ -23,7 +23,7 @@ export default async function Page() {
       {/* Sidens hovedoverskrift. Skjult visuelt (designet har ingen synlig tittel),
           men viktig for skjermlesere og søkemotorer. Seksjonene under bruker h2/h3. */}
       <h1 className="visually-hidden">Tech Camp for jenter</h1>
-      <Hero image={homePage.hero?.image} />
+      <Hero image={homePage.hero?.image} video={homePage.hero?.video} />
       <Slogans slogans={homePage.slogans} />
       <Intro intro={homePage.intro} />
       <Expectations expectations={homePage.expectations} />

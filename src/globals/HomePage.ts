@@ -27,6 +27,20 @@ export const HomePage: GlobalConfig = {
           required: true,
           label: 'Hero-bilde',
         },
+        {
+          name: 'video',
+          type: 'upload',
+          relationTo: 'media',
+          label: 'Hero-video',
+          // Ikke required: Forside finnes allerede i databasen
+          filterOptions: {
+            mimeType: { contains: 'video' }, // velgeren viser bare videofiler
+          },
+          admin: {
+            description:
+              'Valgfritt. MP4-video uten lyd som spilles av i loop. Hero-bildet vises mens videoen laster, og hvis video er skrudd av.',
+          },
+        },
       ],
     },
     {

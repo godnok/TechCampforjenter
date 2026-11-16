@@ -1,0 +1,14 @@
+# Alle tekstfiler lagres med LF-linjeskift i git, uansett operativsystem.
+# Det fjerner «endret, men likt»-støy mellom Windows og andre verktøy.
+* text=auto eol=lf
+
+# Binærfiler skal aldri gjøres om
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.webp binary
+*.ico binary
+*.mp4 binary
+*.woff binary
+*.woff2 binary
