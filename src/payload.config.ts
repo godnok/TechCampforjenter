@@ -9,6 +9,7 @@ import sharp from 'sharp'
 
 import { Users } from './collections/Users'
 import { Media } from './collections/Media'
+import { SponsorInquiries } from './collections/SponsorInquiries'
 import { Sponsors } from './collections/Sponsors'
 import { AboutPage } from './globals/AboutPage'
 import { HomePage } from './globals/HomePage'
@@ -34,6 +35,7 @@ export default buildConfig({
         Icon: '/components/admin/Icon#Icon', // liten logo i menyen
       },
       beforeDashboard: ['/components/admin/Welcome#Welcome'], // velkomstboks øverst på dashboardet
+      header: ['/components/admin/BackLink#BackLink'], // tilbakelenke øverst på admin-sidene
     },
   },
   // Admin-panelet på norsk (bokmål)
@@ -41,7 +43,7 @@ export default buildConfig({
     supportedLanguages: { nb },
     fallbackLanguage: 'nb',
   },
-  collections: [Users, Media, Sponsors],
+  collections: [Users, Media, Sponsors, SponsorInquiries],
   globals: [HomePage, AboutPage, SiteSettings],
   editor: lexicalEditor(),
   secret: process.env.PAYLOAD_SECRET || '',

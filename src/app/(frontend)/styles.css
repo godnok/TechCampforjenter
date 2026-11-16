@@ -107,3 +107,30 @@ a {
 .skip-link:focus {
   top: 16px;
 }
+
+/* ---------- Knapp ---------- */
+
+/* Gjenbrukbar knappestil – brukes på både <a> og <button> (f.eks. «Meld deg på» senere) */
+.button {
+  display: inline-block;
+  padding: 14px 28px;
+  border: 0;
+  border-radius: 999px; /* helt runde ender */
+  background: var(--color-pink);
+  color: var(--color-text); /* svart på rosa: ca. 8:1 kontrast */
+  font-family: var(--font-heading);
+  font-size: 1.125rem;
+  text-align: center;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.button:hover {
+  background: #f857bb;
+}
+
+.button:disabled {
+  opacity: 0.6;
+  cursor: progress;
+}

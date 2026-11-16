@@ -1,5 +1,6 @@
 import config from '@payload-config'
 import type { Metadata } from 'next'
+import Link from 'next/link'
 import { getPayload } from 'payload'
 
 import { Reveal } from '@/components/Reveal'
@@ -41,6 +42,12 @@ export default async function Page() {
       ) : (
         <p className={styles.empty}>Sponsorer kommer snart.</p>
       )}
+
+      <div className={styles.cta}>
+        <Link href="/bli-sponsor" className="button">
+          Vil du også bli sponsor?
+        </Link>
+      </div>
     </div>
   )
 }
