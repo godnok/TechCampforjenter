@@ -1,6 +1,7 @@
 import Image from 'next/image'
 
 import type { AboutPage } from '@/payload-types'
+import { getObjectPosition } from '@/utilities/getObjectPosition'
 import styles from './AboutSection.module.css'
 
 // Typen til ett element i "sections"-listen
@@ -34,6 +35,7 @@ export function AboutSection({ section, imagePosition }: Props) {
             // Mobil: nesten hele skjermbredden. Desktop: 350 px.
             sizes="(max-width: 768px) 90vw, 350px"
             className={styles.image}
+            style={{ objectPosition: getObjectPosition(image) }} // fokuspunkt fra admin
           />
         </div>
       )}

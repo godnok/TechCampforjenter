@@ -1,0 +1,25 @@
+// Tilpasninger av utseendet i Payload-admin.
+// Farger gjelder bare lys modus – mørk modus beholder Payloads standardfarger.
+
+html[data-theme='light'] {
+  // Bakgrunnen i hele admin: lys, varm beige
+  --theme-bg: #f7f1e8;
+
+  // Kortene på dashboardet (Forside, Om oss, Sponsorer ...): lyserosa
+  .card {
+    background: #fcecf2;
+  }
+
+  // Når man holder musen over et kort: litt mørkere rosa og rosa kant
+  .card.card--has-onclick:hover {
+    background: #f9dde9;
+    border-color: #fa6fc6;
+  }
+}
+
+// Større skrift på korttitlene (gjelder både lys og mørk modus).
+// ".card .card__title" er litt mer spesifikk enn Payloads egen regel, så vår vinner.
+.card .card__title {
+  font-size: 1.25rem;
+  line-height: 1.4;
+}

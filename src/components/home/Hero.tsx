@@ -1,6 +1,7 @@
 import Image from 'next/image'
 
 import type { Media } from '@/payload-types'
+import { getObjectPosition } from '@/utilities/getObjectPosition'
 import styles from './Hero.module.css'
 
 type Props = {
@@ -22,6 +23,7 @@ export function Hero({ image }: Props) {
         sizes="100vw" // bildet er alltid like bredt som skjermen
         priority // første bildet på siden – last det med en gang
         className={styles.image}
+        style={{ objectPosition: getObjectPosition(image) }} // fokuspunkt fra admin
       />
     </section>
   )

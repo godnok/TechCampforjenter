@@ -157,6 +157,9 @@ export interface User {
  */
 export interface Media {
   id: number;
+  /**
+   * Beskriv kort hva bildet viser, for de som ikke kan se det (skjermlesere). F.eks. «To jenter bygger en robot».
+   */
   alt: string;
   _objectKey?: string | null;
   updatedAt: string;

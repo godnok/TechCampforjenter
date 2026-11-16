@@ -1,6 +1,7 @@
 import Image from 'next/image'
 
 import type { HomePage } from '@/payload-types'
+import { getObjectPosition } from '@/utilities/getObjectPosition'
 import styles from './Expectations.module.css'
 
 type Props = {
@@ -30,6 +31,7 @@ export function Expectations({ expectations }: Props) {
                     fill
                     sizes="168px"
                     className={styles.image}
+                    style={{ objectPosition: getObjectPosition(image) }} // fokuspunkt fra admin
                   />
                 </div>
               )}

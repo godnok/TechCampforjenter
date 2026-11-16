@@ -13,6 +13,10 @@ import {
 export const AboutPage: GlobalConfig = {
   slug: 'about-page',
   label: 'Om oss',
+  admin: {
+    group: 'Sider',
+    preview: () => '/om-oss',
+  },
   access: {
     read: () => true,
   },
