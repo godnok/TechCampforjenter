@@ -1,6 +1,7 @@
 import config from '@payload-config'
 import { getPayload } from 'payload'
 
+import { Expectations } from '@/components/home/Expectations'
 import { Hero } from '@/components/home/Hero'
 import { Intro } from '@/components/home/Intro'
 import { Slogans } from '@/components/home/Slogans'
@@ -25,6 +26,7 @@ export default async function Page() {
       <Hero image={homePage.hero?.image} />
       <Slogans slogans={homePage.slogans} />
       <Intro intro={homePage.intro} />
+      <Expectations expectations={homePage.expectations} />
     </>
   )
 }

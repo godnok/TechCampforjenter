@@ -69,5 +69,49 @@ export const HomePage: GlobalConfig = {
         },
       ],
     },
+    {
+      name: 'expectations',
+      type: 'group',
+      label: 'Forventninger («Hva kan du forvente av Tech Camp?»)',
+      fields: [
+        {
+          name: 'title',
+          type: 'text',
+          // Ikke required – samme grunn som i Intro (Forside finnes allerede i databasen)
+          label: 'Tittel',
+        },
+        {
+          name: 'cards',
+          type: 'array',
+          label: 'Kort',
+          labels: { singular: 'Kort', plural: 'Kort' },
+          // Designet har nøyaktig tre kort ved siden av hverandre
+          minRows: 3,
+          maxRows: 3,
+          // Kortene lagres i en egen tabell, så her er påkrevde felter trygt
+          fields: [
+            {
+              name: 'image',
+              type: 'upload',
+              relationTo: 'media',
+              required: true,
+              label: 'Bilde',
+            },
+            {
+              name: 'title',
+              type: 'text',
+              required: true,
+              label: 'Tittel',
+            },
+            {
+              name: 'text',
+              type: 'textarea',
+              required: true,
+              label: 'Tekst',
+            },
+          ],
+        },
+      ],
+    },
   ],
 }

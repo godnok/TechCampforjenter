@@ -346,6 +346,17 @@ export interface HomePage {
     text?: string | null;
     image?: (number | null) | Media;
   };
+  expectations?: {
+    title?: string | null;
+    cards?:
+      | {
+          image: number | Media;
+          title: string;
+          text: string;
+          id?: string | null;
+        }[]
+      | null;
+  };
   updatedAt?: string | null;
   createdAt?: string | null;
 }
@@ -371,6 +382,19 @@ export interface HomePageSelect<T extends boolean = true> {
         title?: T;
         text?: T;
         image?: T;
+      };
+  expectations?:
+    | T
+    | {
+        title?: T;
+        cards?:
+          | T
+          | {
+              image?: T;
+              title?: T;
+              text?: T;
+              id?: T;
+            };
       };
   updatedAt?: T;
   createdAt?: T;
