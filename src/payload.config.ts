@@ -35,6 +35,7 @@ export default buildConfig({
         Icon: '/components/admin/Icon#Icon', // liten logo i menyen
       },
       beforeDashboard: ['/components/admin/Welcome#Welcome'], // velkomstboks øverst på dashboardet
+      header: ['/components/admin/BackLink#BackLink'], // tilbakelenke øverst på admin-sidene
     },
   },
   // Admin-panelet på norsk (bokmål)
