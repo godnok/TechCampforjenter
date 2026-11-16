@@ -8,6 +8,7 @@ import sharp from 'sharp'
 
 import { Users } from './collections/Users'
 import { Media } from './collections/Media'
+import { Sponsors } from './collections/Sponsors'
 import { AboutPage } from './globals/AboutPage'
 import { HomePage } from './globals/HomePage'
 
@@ -21,7 +22,7 @@ export default buildConfig({
       baseDir: path.resolve(dirname),
     },
   },
-  collections: [Users, Media],
+  collections: [Users, Media, Sponsors],
   globals: [HomePage, AboutPage],
   editor: lexicalEditor(),
   secret: process.env.PAYLOAD_SECRET || '',
