@@ -332,6 +332,20 @@ export interface HomePage {
   hero: {
     image: number | Media;
   };
+  slogans?:
+    | {
+        text: string;
+        id?: string | null;
+      }[]
+    | null;
+  intro?: {
+    title?: string | null;
+    /**
+     * Hver linje blir et eget avsnitt.
+     */
+    text?: string | null;
+    image?: (number | null) | Media;
+  };
   updatedAt?: string | null;
   createdAt?: string | null;
 }
@@ -343,6 +357,19 @@ export interface HomePageSelect<T extends boolean = true> {
   hero?:
     | T
     | {
+        image?: T;
+      };
+  slogans?:
+    | T
+    | {
+        text?: T;
+        id?: T;
+      };
+  intro?:
+    | T
+    | {
+        title?: T;
+        text?: T;
         image?: T;
       };
   updatedAt?: T;

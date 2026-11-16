@@ -1,0 +1,21 @@
+.slogans {
+  /* clamp(min, foretrukket, maks): skalerer jevnt mellom mobil og desktop */
+  padding: clamp(48px, 7vw, 85px) var(--page-padding);
+}
+
+.slogans ul {
+  list-style: none;
+  margin: 0 auto;
+  padding: 0;
+  max-width: var(--max-width);
+  display: flex;
+  flex-direction: column;
+  gap: clamp(32px, 5.5vw, 70px);
+  text-align: center;
+}
+
+.slogans li {
+  font-family: var(--font-heading);
+  font-size: clamp(18px, 4.5vw, 36px);
+  line-height: 1.2;
+}

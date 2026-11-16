@@ -2,6 +2,8 @@ import config from '@payload-config'
 import { getPayload } from 'payload'
 
 import { Hero } from '@/components/home/Hero'
+import { Intro } from '@/components/home/Intro'
+import { Slogans } from '@/components/home/Slogans'
 
 // Hent ferske data ved hvert besøk, så endringer i admin vises med en gang.
 // Før lansering bytter vi til caching som oppdateres når innholdet lagres.
@@ -15,5 +17,14 @@ export default async function Page() {
     depth: 1, // ta med hele bildeobjektet, ikke bare ID-en
   })
 
-  return <Hero image={homePage.hero?.image} />
+  return (
+    <>
+      {/* Sidens hovedoverskrift. Skjult visuelt (designet har ingen synlig tittel),
+          men viktig for skjermlesere og søkemotorer. Seksjonene under bruker h2/h3. */}
+      <h1 className="visually-hidden">Tech Camp for jenter</h1>
+      <Hero image={homePage.hero?.image} />
+      <Slogans slogans={homePage.slogans} />
+      <Intro intro={homePage.intro} />
+    </>
+  )
 }
