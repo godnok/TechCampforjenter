@@ -3,8 +3,10 @@
   min-height: 100px;
   padding: 20px;
   display: flex;
+  flex-direction: column; /* ikonene over teksten */
   align-items: center;
   justify-content: center;
+  gap: 12px;
   text-align: center;
 }
 
@@ -15,6 +17,34 @@
   font-size: 1.25rem;
 }
 
+/* ---------- Sosiale medier ---------- */
+
+.social {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  gap: 20px;
+}
+
+.social a {
+  display: inline-flex;
+  padding: 4px; /* litt større klikkflate */
+  border-radius: 6px;
+  color: var(--color-text);
+  transition: color 0.2s ease;
+}
+
+.social a:hover,
+.social a:focus-visible {
+  color: var(--color-pink);
+}
+
+.icon {
+  width: 28px;
+  height: 28px;
+}
+
 @media (max-width: 768px) {
   .footer {
     min-height: 64px;
@@ -22,5 +52,14 @@
 
   .footer p {
     font-size: 0.875rem;
+  }
+
+  .social {
+    gap: 16px;
+  }
+
+  .icon {
+    width: 24px;
+    height: 24px;
   }
 }

@@ -2,6 +2,7 @@ import config from '@payload-config'
 import type { Metadata } from 'next'
 import { getPayload } from 'payload'
 
+import { Reveal } from '@/components/Reveal'
 import { SponsorItem } from '@/components/sponsors/SponsorItem'
 import styles from './page.module.css'
 
@@ -31,7 +32,9 @@ export default async function Page() {
         <ul className={styles.list}>
           {sponsors.map((sponsor) => (
             <li key={sponsor.id}>
-              <SponsorItem sponsor={sponsor} />
+              <Reveal>
+                <SponsorItem sponsor={sponsor} />
+              </Reveal>
             </li>
           ))}
         </ul>

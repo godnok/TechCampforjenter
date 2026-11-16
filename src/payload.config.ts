@@ -12,6 +12,7 @@ import { Media } from './collections/Media'
 import { Sponsors } from './collections/Sponsors'
 import { AboutPage } from './globals/AboutPage'
 import { HomePage } from './globals/HomePage'
+import { SiteSettings } from './globals/SiteSettings'
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
@@ -41,7 +42,7 @@ export default buildConfig({
     fallbackLanguage: 'nb',
   },
   collections: [Users, Media, Sponsors],
-  globals: [HomePage, AboutPage],
+  globals: [HomePage, AboutPage, SiteSettings],
   editor: lexicalEditor(),
   secret: process.env.PAYLOAD_SECRET || '',
   typescript: {

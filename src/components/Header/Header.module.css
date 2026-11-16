@@ -18,6 +18,7 @@
 
 .logo {
   display: block;
+  border-radius: 6px; /* avrundet fokusramme, som resten av siden */
 }
 
 /* ---------- Desktop-meny ---------- */
@@ -35,6 +36,9 @@
   font-family: var(--font-heading);
   font-size: 1.25rem;
   text-decoration: none;
+  /* Samme form som ikonene i footeren, så fokusrammen blir lik overalt */
+  padding: 4px;
+  border-radius: 6px;
 }
 
 .desktopNav a:hover,
@@ -84,7 +88,7 @@
 
 .mobileNav a {
   display: block;
-  padding: 12px 0;
+  padding: 12px 4px;
 }
 
 /* Under 768px bredde: bytt fra desktop-meny til hamburger */

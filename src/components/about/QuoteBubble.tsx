@@ -1,5 +1,6 @@
 import { RichText } from '@payloadcms/richtext-lexical/react'
 
+import { Reveal } from '@/components/Reveal'
 import type { AboutPage } from '@/payload-types'
 import styles from './QuoteBubble.module.css'
 
@@ -10,6 +11,7 @@ type Props = {
 export function QuoteBubble({ quote }: Props) {
   return (
     // <figure> + <blockquote> er den semantisk riktige måten å markere et sitat på
+    <Reveal>
     <figure className={styles.quote}>
       <blockquote className={styles.bubble}>
         {/* RichText gjør innholdet fra Lexical-editoren om til HTML (<p>, <strong> osv.) */}
@@ -20,5 +22,6 @@ export function QuoteBubble({ quote }: Props) {
       {/* eslint-disable-next-line @next/next/no-img-element */}
       <img src="/logo.png" alt="" width={183} height={165} className={styles.robot} />
     </figure>
+    </Reveal>
   )
 }

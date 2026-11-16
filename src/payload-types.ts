@@ -92,10 +92,12 @@ export interface Config {
   globals: {
     'home-page': HomePage;
     'about-page': AboutPage;
+    'site-settings': SiteSetting;
   };
   globalsSelect: {
     'home-page': HomePageSelect<false> | HomePageSelect<true>;
     'about-page': AboutPageSelect<false> | AboutPageSelect<true>;
+    'site-settings': SiteSettingsSelect<false> | SiteSettingsSelect<true>;
   };
   locale: null;
   widgets: {
@@ -381,6 +383,10 @@ export interface HomePage {
   id: number;
   hero: {
     image: number | Media;
+    /**
+     * Valgfritt. MP4-video uten lyd som spilles av i loop. Hero-bildet vises mens videoen laster, og hvis video er skrudd av.
+     */
+    video?: (number | null) | Media;
   };
   slogans?:
     | {
@@ -453,6 +459,28 @@ export interface AboutPage {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "site-settings".
+ */
+export interface SiteSetting {
+  id: number;
+  /**
+   * Vises som ikoner i footeren. Dra radene for å endre rekkefølgen.
+   */
+  socialLinks?:
+    | {
+        platform: 'instagram' | 'facebook' | 'tiktok' | 'linkedin' | 'youtube' | 'snapchat';
+        /**
+         * Full adresse, f.eks. https://www.instagram.com/gonok
+         */
+        url: string;
+        id?: string | null;
+      }[]
+    | null;
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "home-page_select".
  */
 export interface HomePageSelect<T extends boolean = true> {
@@ -460,6 +488,7 @@ export interface HomePageSelect<T extends boolean = true> {
     | T
     | {
         image?: T;
+        video?: T;
       };
   slogans?:
     | T
@@ -505,6 +534,22 @@ export interface AboutPageSelect<T extends boolean = true> {
         id?: T;
       };
   quote?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "site-settings_select".
+ */
+export interface SiteSettingsSelect<T extends boolean = true> {
+  socialLinks?:
+    | T
+    | {
+        platform?: T;
+        url?: T;
+        id?: T;
+      };
   updatedAt?: T;
   createdAt?: T;
   globalType?: T;

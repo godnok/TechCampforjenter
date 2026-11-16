@@ -1,0 +1,23 @@
+/* Startposisjon: usynlig og litt lenger ned */
+.reveal {
+  opacity: 0;
+  transform: translateY(32px);
+  transition:
+    opacity 0.7s ease-out,
+    transform 0.7s ease-out;
+}
+
+/* Når elementet er synlig på skjermen: på plass */
+.visible {
+  opacity: 1;
+  transform: none;
+}
+
+/* Brukere som har slått av animasjoner i operativsystemet ser alt med en gang */
+@media (prefers-reduced-motion: reduce) {
+  .reveal {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+}

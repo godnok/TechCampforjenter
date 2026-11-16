@@ -11,6 +11,7 @@
   --color-dark: #474747; /* mørk seksjon på forsiden */
   --color-text: #000000;
   --color-white: #ffffff;
+  --color-focus: #c4237f; /* mørk rosa: minst 4,7:1 kontrast mot hvit og lyserosa (WCAG krever 3:1) */
 
   /* Fonter – selve fontfilene lastes i layout.tsx med next/font,
      som setter variablene --font-russo, --font-poppins og --font-inter */
@@ -76,4 +77,33 @@ a {
   clip: rect(0, 0, 0, 0);
   white-space: nowrap;
   border: 0;
+}
+
+/* ---------- Tilgjengelighet ---------- */
+
+/* Felles fokusramme for alt man kan tabbe til.
+   :focus-visible vises bare ved tastaturnavigering, ikke når man klikker med musen. */
+:focus-visible {
+  outline: 3px solid var(--color-focus);
+  outline-offset: 4px; /* luft mellom elementet og rammen */
+}
+
+/* «Hopp til hovedinnhold»: skjult over skjermen til den får fokus (første Tab) */
+.skip-link {
+  position: absolute;
+  top: -100px;
+  left: 16px;
+  z-index: 100;
+  padding: 12px 20px;
+  border-radius: 6px;
+  background: var(--color-white);
+  color: var(--color-text);
+  font-family: var(--font-heading);
+  font-size: 1rem;
+  text-decoration: none;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+}
+
+.skip-link:focus {
+  top: 16px;
 }

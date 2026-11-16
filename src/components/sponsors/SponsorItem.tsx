@@ -43,6 +43,8 @@ export function SponsorItem({ sponsor }: Props) {
             className={styles.logoLink}
           >
             {logoImage}
+            {/* Skjermlesere leser f.eks. «Jotun (åpnes i ny fane)» */}
+            <span className="visually-hidden">(åpnes i ny fane)</span>
           </a>
         ) : (
           logoImage
