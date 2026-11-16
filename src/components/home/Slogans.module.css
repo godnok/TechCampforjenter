@@ -16,6 +16,6 @@
 
 .slogans li {
   font-family: var(--font-heading);
-  font-size: clamp(18px, 4.5vw, 36px);
+  font-size: clamp(1.125rem, 4.5vw, 2.25rem);
   line-height: 1.2;
 }

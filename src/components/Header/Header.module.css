@@ -33,7 +33,7 @@
 .desktopNav a,
 .mobileNav a {
   font-family: var(--font-heading);
-  font-size: 20px;
+  font-size: 1.25rem;
   text-decoration: none;
 }
 

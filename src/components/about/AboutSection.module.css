@@ -1,0 +1,62 @@
+/* Desktop: bilde (350 px) og tekst side om side. Mål fra Figma. */
+.section {
+  max-width: 1090px;
+  margin: 0 auto 140px;
+  display: grid;
+  grid-template-columns: 350px 1fr;
+  gap: 90px;
+  align-items: center;
+}
+
+/* Annenhver seksjon: tekst til venstre, bilde til høyre */
+.imageRight {
+  grid-template-columns: 1fr 350px;
+}
+
+.imageRight .imageFrame {
+  order: 2; /* flytter bildet til høyre kolonne */
+}
+
+.imageFrame {
+  position: relative; /* nødvendig for <Image fill> */
+  width: 350px;
+  aspect-ratio: 350 / 500;
+  border: 3px solid var(--color-pink);
+  border-radius: 11px;
+  overflow: hidden;
+}
+
+.image {
+  object-fit: cover;
+}
+
+.text p {
+  font-family: var(--font-light);
+  font-weight: 400;
+  /* Figma har 32 px, men det ble for voldsomt på skjerm – 1.375rem (22 px) er maks */
+  font-size: clamp(1rem, 1.8vw, 1.375rem);
+  line-height: 1.5;
+  margin: 0 0 1.2em;
+  white-space: pre-line; /* enkle linjeskift fra admin vises som linjeskift */
+}
+
+.text p:last-child {
+  margin-bottom: 0;
+}
+
+/* Mobil: bildet øverst i full bredde, teksten under */
+@media (max-width: 768px) {
+  .section,
+  .imageRight {
+    grid-template-columns: 1fr;
+    gap: 24px;
+    margin-bottom: 64px;
+  }
+
+  .imageFrame,
+  .imageRight .imageFrame {
+    order: 0;
+    width: 100%;
+    aspect-ratio: 6 / 5; /* bredere og lavere bilder på mobil, som i Figma */
+  }
+}
