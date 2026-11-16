@@ -1,5 +1,6 @@
 import Image from 'next/image'
 
+import { Reveal } from '@/components/Reveal'
 import type { HomePage } from '@/payload-types'
 import { getObjectPosition } from '@/utilities/getObjectPosition'
 import styles from './Expectations.module.css'
@@ -14,15 +15,20 @@ export function Expectations({ expectations }: Props) {
 
   return (
     <section className={styles.expectations}>
-      {expectations?.title && <h2>{expectations.title}</h2>}
+      {expectations?.title && (
+        <Reveal>
+          <h2>{expectations.title}</h2>
+        </Reveal>
+      )}
 
       <div className={styles.cards}>
-        {cards.map((card) => {
+        {cards.map((card, index) => {
           const image = typeof card.image === 'object' ? card.image : null
 
           return (
             // <article> = et selvstendig innholdselement, passer for et kort
-            <article key={card.id} className={styles.card}>
+            <Reveal key={card.id} delay={index * 150}>
+            <article className={styles.card}>
               {image?.url && (
                 <div className={styles.imageFrame}>
                   <Image
@@ -38,6 +44,7 @@ export function Expectations({ expectations }: Props) {
               <h3>{card.title}</h3>
               <p>{card.text}</p>
             </article>
+            </Reveal>
           )
         })}
       </div>

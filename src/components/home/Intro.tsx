@@ -1,5 +1,6 @@
 import Image from 'next/image'
 
+import { Reveal } from '@/components/Reveal'
 import type { HomePage } from '@/payload-types'
 import { getObjectPosition } from '@/utilities/getObjectPosition'
 import styles from './Intro.module.css'
@@ -23,6 +24,7 @@ export function Intro({ intro }: Props) {
 
   return (
     <section className={styles.intro}>
+      <Reveal>
       <div className={styles.inner}>
         <div className={styles.text}>
           <h2>{intro.title}</h2>
@@ -46,6 +48,7 @@ export function Intro({ intro }: Props) {
           </div>
         )}
       </div>
+      </Reveal>
     </section>
   )
 }

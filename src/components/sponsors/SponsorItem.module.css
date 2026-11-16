@@ -6,6 +6,42 @@
 
 .logoLink {
   display: inline-block;
+  padding: 8px;
+  margin: -8px -8px 24px; /* padding gir plass til skyggen uten å flytte logoen */
+  border-radius: 8px;
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+/* Logoen i en lenke har avstanden på lenken i stedet */
+.logoLink .logo {
+  margin-bottom: 0;
+}
+
+/* «Popper ut» når musen er over – eller når man tabber til lenken med tastaturet */
+.logoLink:hover,
+.logoLink:focus-visible {
+  transform: scale(1.06);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+}
+
+/* Tydelig ramme for tastaturbrukere */
+.logoLink:focus-visible {
+  outline: 3px solid var(--color-pink);
+  outline-offset: 2px;
+}
+
+/* Redusert bevegelse: bare skygge, ingen forstørring */
+@media (prefers-reduced-motion: reduce) {
+  .logoLink {
+    transition: box-shadow 0.2s ease;
+  }
+
+  .logoLink:hover,
+  .logoLink:focus-visible {
+    transform: none;
+  }
 }
 
 /* Logoene har ulike former (breie, kvadratiske). Lik høyde, bredden tilpasser seg. */
@@ -36,5 +72,9 @@
     height: 56px;
     max-width: 200px;
     margin-bottom: 20px;
+  }
+
+  .logoLink {
+    margin-bottom: 12px;
   }
 }

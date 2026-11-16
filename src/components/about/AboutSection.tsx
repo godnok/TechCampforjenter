@@ -1,5 +1,6 @@
 import Image from 'next/image'
 
+import { Reveal } from '@/components/Reveal'
 import type { AboutPage } from '@/payload-types'
 import { getObjectPosition } from '@/utilities/getObjectPosition'
 import styles from './AboutSection.module.css'
@@ -23,6 +24,7 @@ export function AboutSection({ section, imagePosition }: Props) {
   const image = typeof section.image === 'object' ? section.image : null
 
   return (
+    <Reveal>
     <div
       className={`${styles.section} ${imagePosition === 'right' ? styles.imageRight : ''}`}
     >
@@ -45,5 +47,6 @@ export function AboutSection({ section, imagePosition }: Props) {
         ))}
       </div>
     </div>
+    </Reveal>
   )
 }
