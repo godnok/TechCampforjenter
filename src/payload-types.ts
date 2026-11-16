@@ -87,8 +87,12 @@ export interface Config {
     defaultIDType: number;
   };
   fallbackLocale: null;
-  globals: {};
-  globalsSelect: {};
+  globals: {
+    'home-page': HomePage;
+  };
+  globalsSelect: {
+    'home-page': HomePageSelect<false> | HomePageSelect<true>;
+  };
   locale: null;
   widgets: {
     collections: CollectionsWidget;
@@ -150,6 +154,7 @@ export interface User {
 export interface Media {
   id: number;
   alt: string;
+  _objectKey?: string | null;
   updatedAt: string;
   createdAt: string;
   url?: string | null;
@@ -265,6 +270,7 @@ export interface UsersSelect<T extends boolean = true> {
  */
 export interface MediaSelect<T extends boolean = true> {
   alt?: T;
+  _objectKey?: T;
   updatedAt?: T;
   createdAt?: T;
   url?: T;
@@ -316,6 +322,32 @@ export interface PayloadMigrationsSelect<T extends boolean = true> {
   batch?: T;
   updatedAt?: T;
   createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "home-page".
+ */
+export interface HomePage {
+  id: number;
+  hero: {
+    image: number | Media;
+  };
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "home-page_select".
+ */
+export interface HomePageSelect<T extends boolean = true> {
+  hero?:
+    | T
+    | {
+        image?: T;
+      };
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema

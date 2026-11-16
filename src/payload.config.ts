@@ -1,5 +1,6 @@
 import { postgresAdapter } from '@payloadcms/db-postgres'
 import { lexicalEditor } from '@payloadcms/richtext-lexical'
+import { s3Storage } from '@payloadcms/storage-s3'
 import path from 'path'
 import { buildConfig } from 'payload'
 import { fileURLToPath } from 'url'
@@ -7,6 +8,7 @@ import sharp from 'sharp'
 
 import { Users } from './collections/Users'
 import { Media } from './collections/Media'
+import { HomePage } from './globals/HomePage'
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
@@ -19,6 +21,7 @@ export default buildConfig({
     },
   },
   collections: [Users, Media],
+  globals: [HomePage],
   editor: lexicalEditor(),
   secret: process.env.PAYLOAD_SECRET || '',
   typescript: {
@@ -30,5 +33,25 @@ export default buildConfig({
     },
   }),
   sharp,
-  plugins: [],
+  plugins: [
+    // Lagrer opplastede filer i Supabase Storage i stedet for på disken.
+    // Supabase Storage er S3-kompatibelt, så vi bruker Payloads S3-plugin.
+    // Bildene hentes fortsatt via Payload (/api/media/file/...), så bucketen kan være privat.
+    s3Storage({
+      collections: {
+        media: true, // gjelder Media-collectionen
+      },
+      bucket: process.env.S3_BUCKET || '',
+      config: {
+        endpoint: process.env.S3_ENDPOINT,
+        region: process.env.S3_REGION,
+        // Supabase krever "path style": .../s3/media/fil.jpg i stedet for media.s3.../fil.jpg
+        forcePathStyle: true,
+        credentials: {
+          accessKeyId: process.env.S3_ACCESS_KEY_ID || '',
+          secretAccessKey: process.env.S3_SECRET_ACCESS_KEY || '',
+        },
+      },
+    }),
+  ],
 })

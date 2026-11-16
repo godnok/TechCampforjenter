@@ -6,7 +6,7 @@ export function Footer() {
 
   return (
     <footer className={styles.footer}>
-      <p>Go&apos;nok sin Tech camp for jenter © {year}</p>
+      <p>Go&apos;nok sin Tech Camp for jenter © {year}</p>
     </footer>
   )
 }
