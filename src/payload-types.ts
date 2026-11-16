@@ -71,6 +71,8 @@ export interface Config {
     media: Media;
     sponsors: Sponsor;
     'sponsor-inquiries': SponsorInquiry;
+    camps: Camp;
+    registrations: Registration;
     'payload-kv': PayloadKv;
     'payload-locked-documents': PayloadLockedDocument;
     'payload-preferences': PayloadPreference;
@@ -82,6 +84,8 @@ export interface Config {
     media: MediaSelect<false> | MediaSelect<true>;
     sponsors: SponsorsSelect<false> | SponsorsSelect<true>;
     'sponsor-inquiries': SponsorInquiriesSelect<false> | SponsorInquiriesSelect<true>;
+    camps: CampsSelect<false> | CampsSelect<true>;
+    registrations: RegistrationsSelect<false> | RegistrationsSelect<true>;
     'payload-kv': PayloadKvSelect<false> | PayloadKvSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
     'payload-preferences': PayloadPreferencesSelect<false> | PayloadPreferencesSelect<true>;
@@ -221,6 +225,64 @@ export interface SponsorInquiry {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "camps".
+ */
+export interface Camp {
+  id: number;
+  /**
+   * F.eks. «Tech Camp Sandefjord»
+   */
+  name: string;
+  /**
+   * Brukes i lenken, f.eks. «sandefjord» → /pamelding/sandefjord
+   */
+  slug: string;
+  /**
+   * F.eks. navnet på lokalet eller adressen
+   */
+  location: string;
+  startDate: string;
+  /**
+   * La stå tom hvis campen bare varer én dag
+   */
+  endDate?: string | null;
+  /**
+   * Påmeldingen er åpen ut denne dagen
+   */
+  registrationDeadline: string;
+  capacity: number;
+  /**
+   * Valgfritt. Vises på knappen på påmeldingssiden.
+   */
+  description?: string | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "registrations".
+ */
+export interface Registration {
+  id: number;
+  camp: number | Camp;
+  status: 'registered' | 'waitlist' | 'cancelled';
+  participantName: string;
+  participantPhone: string;
+  participantEmail: string;
+  birthDate: string;
+  school: string;
+  guardianName: string;
+  guardianPhone: string;
+  guardianEmail: string;
+  hasAllergies: 'no' | 'yes';
+  allergies?: string | null;
+  referredBy?: string | null;
+  privacyConsent?: boolean | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-kv".
  */
 export interface PayloadKv {
@@ -258,6 +320,14 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'sponsor-inquiries';
         value: number | SponsorInquiry;
+      } | null)
+    | ({
+        relationTo: 'camps';
+        value: number | Camp;
+      } | null)
+    | ({
+        relationTo: 'registrations';
+        value: number | Registration;
       } | null);
   globalSlug?: string | null;
   user: {
@@ -367,6 +437,44 @@ export interface SponsorInquiriesSelect<T extends boolean = true> {
   phone?: T;
   message?: T;
   status?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "camps_select".
+ */
+export interface CampsSelect<T extends boolean = true> {
+  name?: T;
+  slug?: T;
+  location?: T;
+  startDate?: T;
+  endDate?: T;
+  registrationDeadline?: T;
+  capacity?: T;
+  description?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "registrations_select".
+ */
+export interface RegistrationsSelect<T extends boolean = true> {
+  camp?: T;
+  status?: T;
+  participantName?: T;
+  participantPhone?: T;
+  participantEmail?: T;
+  birthDate?: T;
+  school?: T;
+  guardianName?: T;
+  guardianPhone?: T;
+  guardianEmail?: T;
+  hasAllergies?: T;
+  allergies?: T;
+  referredBy?: T;
+  privacyConsent?: T;
   updatedAt?: T;
   createdAt?: T;
 }

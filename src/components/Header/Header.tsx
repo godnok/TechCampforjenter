@@ -27,19 +27,26 @@ export function Header() {
           <img src="/logo.png" alt="" width={66} height={59} />
         </Link>
 
-        {/* Desktop-meny – skjules på mobil via CSS */}
-        <nav className={styles.desktopNav} aria-label="Hovedmeny">
-          <ul>
-            {navLinks.map((link) => (
-              <li key={link.href}>
-                <Link href={link.href}>{link.label}</Link>
-              </li>
-            ))}
-          </ul>
-        </nav>
+        <div className={styles.actions}>
+          {/* Desktop-meny – skjules på mobil via CSS */}
+          <nav className={styles.desktopNav} aria-label="Hovedmeny">
+            <ul>
+              {navLinks.map((link) => (
+                <li key={link.href}>
+                  <Link href={link.href}>{link.label}</Link>
+                </li>
+              ))}
+            </ul>
+          </nav>
 
-        {/* Hamburgermeny – vises bare på mobil */}
-        <MobileMenu links={navLinks} />
+          {/* «Meld deg på» vises alltid – både på desktop og ved siden av hamburgeren på mobil */}
+          <Link href="/pamelding" className={`button ${styles.cta}`}>
+            Meld deg på
+          </Link>
+
+          {/* Hamburgermeny – vises bare på mobil */}
+          <MobileMenu links={navLinks} />
+        </div>
       </div>
     </header>
   )

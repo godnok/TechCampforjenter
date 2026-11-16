@@ -8,6 +8,8 @@ import { fileURLToPath } from 'url'
 import sharp from 'sharp'
 
 import { Users } from './collections/Users'
+import { Camps } from './collections/Camps'
+import { Registrations } from './collections/Registrations'
 import { Media } from './collections/Media'
 import { SponsorInquiries } from './collections/SponsorInquiries'
 import { Sponsors } from './collections/Sponsors'
@@ -34,7 +36,11 @@ export default buildConfig({
         Logo: '/components/admin/Logo#Logo', // stor logo på innloggingssiden
         Icon: '/components/admin/Icon#Icon', // liten logo i menyen
       },
-      beforeDashboard: ['/components/admin/Welcome#Welcome'], // velkomstboks øverst på dashboardet
+      // Øverst på dashboardet: velkomstboks, så påmeldinger per camp
+      beforeDashboard: [
+        '/components/admin/Welcome#Welcome',
+        '/components/admin/RegistrationOverview#RegistrationOverview',
+      ],
       header: ['/components/admin/BackLink#BackLink'], // tilbakelenke øverst på admin-sidene
     },
   },
@@ -43,7 +49,7 @@ export default buildConfig({
     supportedLanguages: { nb },
     fallbackLanguage: 'nb',
   },
-  collections: [Users, Media, Sponsors, SponsorInquiries],
+  collections: [Users, Media, Sponsors, SponsorInquiries, Camps, Registrations],
   globals: [HomePage, AboutPage, SiteSettings],
   editor: lexicalEditor(),
   secret: process.env.PAYLOAD_SECRET || '',

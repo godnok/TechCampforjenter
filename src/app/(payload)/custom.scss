@@ -24,10 +24,11 @@ html[data-theme='light'] {
   line-height: 1.4;
 }
 
-// Sponsorhenvendelser: feltene fra skjemaet er låst (se SponsorInquiries.ts),
+// Sponsorhenvendelser og påmeldinger: feltene fra skjemaet er låst (se SponsorInquiries.ts og Registrations.ts),
 // men skal være lette å lese – ikke grå og nedtonet som Payloads standard for låste felt.
 // --theme-input-bg / --theme-text gir hvit/svart i lys modus og riktige farger i mørk modus.
-.collection-edit--sponsor-inquiries {
+.collection-edit--sponsor-inquiries,
+.collection-edit--registrations {
   .field-type input:disabled,
   .field-type textarea:disabled,
   .read-only .textarea-outer {

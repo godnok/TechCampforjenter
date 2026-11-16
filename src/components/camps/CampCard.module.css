@@ -1,0 +1,103 @@
+.card {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  height: 100%;
+  padding: 32px;
+  border: 3px solid var(--color-pink);
+  border-radius: 16px;
+  background: var(--color-pink-light);
+  color: var(--color-text);
+  text-decoration: none;
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+/* Hele kortet er en lenke: løftes litt ved hover/tastaturfokus */
+a.card:hover,
+a.card:focus-visible {
+  transform: translateY(-4px);
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.12);
+}
+
+.name {
+  font-size: 1.75rem;
+  margin-bottom: 8px;
+}
+
+.date {
+  margin: 0;
+  font-family: var(--font-heading);
+  font-size: 1.25rem;
+}
+
+.location,
+.description,
+.deadline {
+  margin: 0;
+  font-size: 1rem;
+  line-height: 1.5;
+}
+
+.deadline {
+  margin-top: 8px;
+  font-size: 0.9375rem;
+}
+
+.action {
+  margin-top: auto; /* skyver «Meld deg på» til bunnen, så kortene ser like ut */
+  padding-top: 20px;
+  font-family: var(--font-heading);
+  font-size: 1.125rem;
+}
+
+/* «Ledige plasser» / «Fullt – venteliste» som liten merkelapp */
+.available,
+.full {
+  align-self: flex-start;
+  margin: 12px 0 0;
+  padding: 4px 12px;
+  border-radius: 999px;
+  font-size: 0.9375rem;
+  font-weight: 500;
+}
+
+.available {
+  background: #e3f4e8; /* lys grønn */
+}
+
+.full {
+  background: #fff1d6; /* lys oransje */
+}
+
+/* Stengt camp: grå, ikke klikkbar */
+.closed {
+  border-color: #b3b3b3;
+  background: #f2f2f2;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .card {
+    transition: box-shadow 0.2s ease;
+  }
+
+  a.card:hover,
+  a.card:focus-visible {
+    transform: none;
+  }
+}
+
+@media (max-width: 768px) {
+  .card {
+    padding: 24px;
+  }
+
+  .name {
+    font-size: 1.375rem;
+  }
+
+  .date {
+    font-size: 1.125rem;
+  }
+}

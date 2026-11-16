@@ -1,0 +1,11 @@
+/* «Meld deg på» etter slagordene */
+.cta {
+  text-align: center;
+  padding: 0 var(--page-padding) 80px;
+}
+
+@media (max-width: 768px) {
+  .cta {
+    padding-bottom: 56px;
+  }
+}
