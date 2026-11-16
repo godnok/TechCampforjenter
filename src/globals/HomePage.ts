@@ -7,6 +7,10 @@ import type { GlobalConfig } from 'payload'
 export const HomePage: GlobalConfig = {
   slug: 'home-page', // brukes i koden og i API-adressen
   label: 'Forside', // det som vises i admin
+  admin: {
+    group: 'Sider', // menygruppe i admin
+    preview: () => '/', // «Forhåndsvis»-knappen åpner forsiden
+  },
   access: {
     read: () => true, // forsideinnholdet er offentlig
   },

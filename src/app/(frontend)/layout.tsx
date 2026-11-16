@@ -35,6 +35,9 @@ export const metadata: Metadata = {
   title: "Tech Camp for jenter | Go'nok",
   description:
     'Tech Camp er en møteplass for jenter som vil utforske teknologi på sine egne premisser.',
+  icons: {
+    icon: '/logo.png', // liten logo i nettleserfanen
+  },
 }
 
 // Layouten pakker inn ALLE sider under (frontend): header øverst, footer nederst,

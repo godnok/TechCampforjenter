@@ -1,6 +1,7 @@
 import Image from 'next/image'
 
 import type { HomePage } from '@/payload-types'
+import { getObjectPosition } from '@/utilities/getObjectPosition'
 import styles from './Intro.module.css'
 
 type Props = {
@@ -40,6 +41,7 @@ export function Intro({ intro }: Props) {
               // Bildet er 280 px bredt på desktop og maks 280 px på mobil
               sizes="280px"
               className={styles.image}
+              style={{ objectPosition: getObjectPosition(image) }} // fokuspunkt fra admin
             />
           </div>
         )}

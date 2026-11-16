@@ -1,0 +1,52 @@
+/* Payloads egne fargevariabler (--theme-...) gjør at boksen
+   ser riktig ut både i lys og mørk modus i admin. */
+
+.welcome {
+  margin-bottom: 40px;
+  padding: 24px 28px;
+  border: 1px solid var(--theme-elevation-150);
+  border-left: 6px solid #fa6fc6; /* Tech Camp-rosa */
+  border-radius: 8px;
+  background: var(--theme-elevation-50);
+}
+
+.welcome h2 {
+  margin: 0 0 8px;
+  font-size: 1.5rem;
+}
+
+.welcome p {
+  margin: 0 0 20px;
+  font-size: 1rem;
+  max-width: 640px;
+}
+
+.shortcuts {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.shortcuts a {
+  display: inline-block;
+  padding: 10px 16px;
+  border: 1px solid var(--theme-elevation-250);
+  border-radius: 6px;
+  background: var(--theme-elevation-0);
+  color: var(--theme-text);
+  font-size: 0.9375rem;
+  text-decoration: none;
+}
+
+.shortcuts a:hover {
+  border-color: #fa6fc6;
+}
+
+/* Lys modus: samme lyserosa som kortene på dashboardet (se custom.scss).
+   :global trengs fordi html-elementet ikke er en del av denne CSS-modulen. */
+:global(html[data-theme='light']) .welcome {
+  background: #fcecf2;
+}

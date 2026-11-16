@@ -1,6 +1,7 @@
 import { postgresAdapter } from '@payloadcms/db-postgres'
 import { lexicalEditor } from '@payloadcms/richtext-lexical'
 import { s3Storage } from '@payloadcms/storage-s3'
+import { nb } from '@payloadcms/translations/languages/nb'
 import path from 'path'
 import { buildConfig } from 'payload'
 import { fileURLToPath } from 'url'
@@ -21,6 +22,23 @@ export default buildConfig({
     importMap: {
       baseDir: path.resolve(dirname),
     },
+    meta: {
+      titleSuffix: ' – Tech Camp admin', // legges til etter sidetittelen i fanen
+      icons: [{ rel: 'icon', type: 'image/png', url: '/logo.png' }], // fanelogo
+    },
+    components: {
+      // Stiene er relative til src/ (importMap.baseDir), og #Navn er den eksporterte komponenten
+      graphics: {
+        Logo: '/components/admin/Logo#Logo', // stor logo på innloggingssiden
+        Icon: '/components/admin/Icon#Icon', // liten logo i menyen
+      },
+      beforeDashboard: ['/components/admin/Welcome#Welcome'], // velkomstboks øverst på dashboardet
+    },
+  },
+  // Admin-panelet på norsk (bokmål)
+  i18n: {
+    supportedLanguages: { nb },
+    fallbackLanguage: 'nb',
   },
   collections: [Users, Media, Sponsors],
   globals: [HomePage, AboutPage],

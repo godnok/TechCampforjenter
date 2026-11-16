@@ -33,6 +33,8 @@ export const Sponsors: CollectionConfig = {
   slug: 'sponsors',
   labels: { singular: 'Sponsor', plural: 'Sponsorer' },
   admin: {
+    group: 'Innhold',
+    preview: () => '/sponsorer',
     useAsTitle: 'name', // navnet vises som tittel i admin-listen
     defaultColumns: ['name', 'order', 'website'], // kolonnene i admin-listen
   },
