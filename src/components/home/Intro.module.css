@@ -1,0 +1,65 @@
+.intro {
+  background: var(--color-dark);
+  color: var(--color-white);
+  padding: 48px var(--page-padding);
+}
+
+/* Desktop: tekst til venstre, bilde (280 px) til høyre – målene er fra Figma */
+.inner {
+  max-width: 1015px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr 280px;
+  gap: 120px;
+  align-items: start;
+}
+
+.text h2 {
+  font-size: 36px;
+  margin-bottom: 64px;
+}
+
+.text p {
+  font-family: var(--font-body);
+  font-weight: 500;
+  font-size: 20px;
+  line-height: 1.4;
+  margin: 0; /* ingen luft mellom avsnittene, som i Figma */
+}
+
+.imageFrame {
+  position: relative; /* nødvendig for <Image fill> */
+  width: 280px;
+  aspect-ratio: 280 / 392;
+  border: 3px solid var(--color-pink);
+  border-radius: 11px;
+  overflow: hidden; /* gjør at bildet følger de avrundede hjørnene */
+}
+
+.image {
+  object-fit: cover;
+}
+
+/* Mobil: bildet øverst, teksten under, alt midtstilt */
+@media (max-width: 768px) {
+  .inner {
+    grid-template-columns: 1fr;
+    gap: 32px;
+    justify-items: center;
+    text-align: center;
+  }
+
+  .imageFrame {
+    order: -1; /* flytter bildet før teksten uten å endre HTML-rekkefølgen */
+    width: min(280px, 70vw);
+  }
+
+  .text h2 {
+    font-size: 24px;
+    margin-bottom: 24px;
+  }
+
+  .text p {
+    font-size: 16px;
+  }
+}

@@ -1,0 +1,11 @@
+.hero {
+  position: relative; /* nødvendig når <Image fill> brukes */
+  width: 100%;
+  aspect-ratio: 4 / 3; /* samme forhold som i Figma (1281 × 961) */
+  max-height: 85vh; /* ikke høyere enn skjermen på store skjermer */
+  overflow: hidden;
+}
+
+.image {
+  object-fit: cover; /* fyller boksen uten å strekke bildet */
+}
