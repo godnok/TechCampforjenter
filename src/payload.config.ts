@@ -16,6 +16,7 @@ import { SponsorInquiries } from './collections/SponsorInquiries'
 import { Sponsors } from './collections/Sponsors'
 import { AboutPage } from './globals/AboutPage'
 import { HomePage } from './globals/HomePage'
+import { PrivacyPage } from './globals/PrivacyPage'
 import { SiteSettings } from './globals/SiteSettings'
 
 const filename = fileURLToPath(import.meta.url)
@@ -54,7 +55,7 @@ export default buildConfig({
     fallbackLanguage: 'nb',
   },
   collections: [Users, Media, Sponsors, SponsorInquiries, Camps, Registrations],
-  globals: [HomePage, AboutPage, SiteSettings],
+  globals: [HomePage, AboutPage, PrivacyPage, SiteSettings],
   editor: lexicalEditor(),
   secret: process.env.PAYLOAD_SECRET || '',
   typescript: {

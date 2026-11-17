@@ -17,6 +17,15 @@
   font-size: 1.25rem;
 }
 
+/* Lenke til personvernerklæringen */
+.privacyLink {
+  padding: 4px;
+  border-radius: 6px;
+  font-family: var(--font-light);
+  font-weight: 300;
+  font-size: 1rem;
+}
+
 /* ---------- Sosiale medier ---------- */
 
 .social {
@@ -51,6 +60,10 @@
   }
 
   .footer p {
+    font-size: 0.875rem;
+  }
+
+  .privacyLink {
     font-size: 0.875rem;
   }
 
