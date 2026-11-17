@@ -4,6 +4,9 @@
 import config from '@payload-config'
 import { getPayload } from 'payload'
 
+import { sendEmails } from '@/emails/sendEmails'
+import { sponsorInquiryNotificationEmail } from '@/emails/sponsorInquiryEmail'
+
 type FieldName = 'name' | 'company' | 'email' | 'phone' | 'message'
 
 export type SponsorFormState = {
@@ -58,7 +61,7 @@ export async function submitSponsorInquiry(
     const payload = await getPayload({ config })
     // Local API hopper over access-reglene (overrideAccess er standard her),
     // så skjemaet kan lagre selv om det offentlige API-et er stengt.
-    await payload.create({
+    const created = await payload.create({
       collection: 'sponsor-inquiries',
       data: {
         name: values.name,
@@ -69,6 +72,13 @@ export async function submitSponsorInquiry(
         status: 'new',
       },
     })
+
+    // Varsel til Go'nok. Feiler e-posten, er henvendelsen uansett lagret.
+    const notifyAddress = process.env.EMAIL_NOTIFY_ADDRESS
+    if (notifyAddress) {
+      await sendEmails(payload, [sponsorInquiryNotificationEmail(created, notifyAddress)])
+    }
+
     return { status: 'success' }
   } catch (error) {
     // Logges på serveren, så vi kan feilsøke – brukeren får en vennlig melding

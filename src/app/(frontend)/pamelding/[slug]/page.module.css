@@ -1,0 +1,67 @@
+.page {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 40px var(--page-padding) 100px;
+}
+
+.back {
+  display: inline-block;
+  margin: 0 0 24px -4px;
+  padding: 4px;
+  border-radius: 6px;
+  font-size: 1rem;
+  text-decoration: none;
+}
+
+.back:hover {
+  text-decoration: underline;
+}
+
+.title {
+  font-size: 2.25rem;
+  margin-bottom: 8px;
+}
+
+.meta {
+  margin: 0 0 20px;
+  font-family: var(--font-heading);
+  font-size: 1.125rem;
+}
+
+/* Status: liten «merkelapp» over skjemaet */
+.available,
+.full,
+.closed {
+  display: inline-block;
+  margin: 0 0 36px;
+  padding: 8px 16px;
+  border-radius: 999px;
+  font-size: 1rem;
+  font-weight: 500;
+}
+
+.available {
+  background: #e3f4e8; /* lys grønn */
+}
+
+.full {
+  background: #fff1d6; /* lys oransje */
+}
+
+.closed {
+  background: #f2f2f2;
+}
+
+@media (max-width: 768px) {
+  .page {
+    padding: 24px var(--page-padding) 56px;
+  }
+
+  .title {
+    font-size: 1.5rem;
+  }
+
+  .meta {
+    font-size: 1rem;
+  }
+}

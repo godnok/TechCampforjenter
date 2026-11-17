@@ -4,57 +4,7 @@
   gap: 20px;
 }
 
-.field {
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-}
-
-.field label {
-  font-family: var(--font-body);
-  font-weight: 500;
-  font-size: 1rem;
-}
-
-.optional {
-  font-weight: 400;
-  color: #555555;
-}
-
-.input {
-  width: 100%;
-  padding: 12px 14px;
-  border: 2px solid #767676; /* grå med 4,5:1 kontrast mot hvit – synlig feltkant */
-  border-radius: 8px;
-  background: var(--color-white);
-  font-family: var(--font-body);
-  font-size: 1rem;
-  color: var(--color-text);
-}
-
-textarea.input {
-  resize: vertical; /* kan gjøres høyere, men ikke bredere */
-}
-
-/* Felt med feil får rød kant */
-.input[aria-invalid='true'] {
-  border-color: #b00020;
-}
-
-.error {
-  margin: 0;
-  color: #b00020; /* mørk rød: god kontrast mot hvit */
-  font-size: 0.9375rem;
-}
-
-.formError {
-  margin: 0;
-  padding: 12px 16px;
-  border-left: 4px solid #b00020;
-  border-radius: 4px;
-  background: #fdeef0;
-  font-size: 1rem;
-}
+/* Feltene har egen stil i src/components/forms/FormField.module.css */
 
 /* Honeypot: flyttet langt utenfor skjermen */
 .honeypot {

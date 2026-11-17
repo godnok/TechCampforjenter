@@ -21,6 +21,20 @@
   border-radius: 6px; /* avrundet fokusramme, som resten av siden */
 }
 
+/* Meny, «Meld deg på» og hamburger samlet til høyre */
+.actions {
+  display: flex;
+  align-items: center;
+  gap: 48px;
+}
+
+/* «Meld deg på»: bruker den felles .button-stilen, men litt mindre i headeren.
+   ".actions .cta" er mer spesifikk enn ".button", så disse verdiene vinner. */
+.actions .cta {
+  padding: 10px 22px;
+  font-size: 1.125rem;
+}
+
 /* ---------- Desktop-meny ---------- */
 
 .desktopNav ul {
@@ -105,6 +119,15 @@
 
   .desktopNav {
     display: none;
+  }
+
+  .actions {
+    gap: 12px;
+  }
+
+  .actions .cta {
+    padding: 8px 14px;
+    font-size: 0.9375rem;
   }
 
   .mobile {
