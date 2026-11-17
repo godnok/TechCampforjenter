@@ -1,67 +1,165 @@
-# Payload Blank Template
+# Tech Camp for jenter
 
-This template comes configured with the bare minimum to get started on anything you need.
+Nettsiden til **Tech Camp for jenter**, arrangert av [Go'nok](https://gonok.no). Siden informerer om campen, viser sponsorene og har påmelding med e-postbekreftelse. Alt innhold redigeres i et eget admin-panel.
 
-## Quick start
+## Innhold
 
-This template can be deployed directly from our Cloud hosting and it will setup MongoDB and cloud S3 object storage for media.
+- [Teknologi](#teknologi)
+- [Kom i gang](#kom-i-gang)
+- [Miljøvariabler (.env)](#miljøvariabler-env)
+- [Nyttige kommandoer](#nyttige-kommandoer)
+- [Mappestruktur](#mappestruktur)
+- [Admin: innhold og roller](#admin-innhold-og-roller)
+- [Påmelding](#påmelding)
+- [E-post under utvikling](#e-post-under-utvikling)
+- [Arbeidsflyt med git](#arbeidsflyt-med-git)
+- [Fallgruver](#fallgruver)
+- [Deploy](#deploy)
 
-## Quick Start - local setup
+## Teknologi
 
-To spin up this template locally, follow these steps:
+| Del | Verktøy |
+| --- | --- |
+| Nettside | [Next.js](https://nextjs.org) (App Router) med TypeScript og CSS Modules |
+| Innhold og admin | [Payload CMS](https://payloadcms.com/docs) 3 – kjører inne i Next.js-appen |
+| Database | PostgreSQL hos [Supabase](https://supabase.com) |
+| Bilder og video | Supabase Storage (via `@payloadcms/storage-s3`) |
+| E-post | [Resend](https://resend.com) (via `@payloadcms/email-resend`) |
+| Excel-eksport | [exceljs](https://github.com/exceljs/exceljs) |
+| Hosting | [Vercel](https://vercel.com) |
 
-### Clone
+Pakkene installeres med **npm**. Versjonene er låst (`save-exact=true` i `.npmrc`), og alle `@payloadcms/*`-pakker skal ha **samme versjon** som `payload`.
 
-After you click the `Deploy` button above, you'll want to have standalone copy of this repo on your machine. If you've already cloned this repo, skip to [Development](#development).
+## Kom i gang
 
-### Development
+**Krav:** Node.js `22.23.5+`, `24.22.3+` eller `26.13.1+` (se `engines` i `package.json`).
 
-1. First [clone the repo](#clone) if you have not done so already
-2. `cd my-project && cp .env.example .env` to copy the example environment variables. You'll need to add the `MONGODB_URL` from your Cloud project to your `.env` if you want to use S3 storage and the MongoDB database that was created for you.
+```bash
+git clone https://github.com/godnok/TechCampforjenter.git tech-camp
+cd tech-camp
+npm install
+```
 
-3. `pnpm install && pnpm dev` to install dependencies and start the dev server
-4. open `http://localhost:3000` to open the app in your browser
+Lag `.env` ved å kopiere `.env.example`, og fyll inn verdiene (se under). Start så utviklingsserveren:
 
-That's it! Changes made in `./src` will be reflected in your app. Follow the on-screen instructions to login and create your first admin user. Then check out [Production](#production) once you're ready to build and serve your app, and [Deployment](#deployment) when you're ready to go live.
+```bash
+npm run dev
+```
 
-#### Docker (Optional)
+- Nettsiden: http://localhost:3000
+- Admin: http://localhost:3000/admin
 
-If you prefer to use Docker for local development instead of a local MongoDB instance, the provided docker-compose.yml file can be used.
+Første gang i en tom database ber Payload deg lage en bruker. **Den første brukeren blir automatisk administrator.**
 
-To do so, follow these steps:
+## Miljøvariabler (.env)
 
-- Modify the `MONGODB_URL` in your `.env` file to `mongodb://127.0.0.1/<dbname>`
-- Modify the `docker-compose.yml` file's `MONGODB_URL` to match the above `<dbname>`
-- Run `docker-compose up` to start the database, optionally pass `-d` to run in the background.
+`.env` inneholder passord og nøkler og skal **aldri** til git (den står i `.gitignore`). `.env.example` viser hvilke variabler som trengs, uten verdier.
 
-## How it works
+| Variabel | Hva den er |
+| --- | --- |
+| `DATABASE_URL` | Tilkobling til Postgres. Supabase → **Connect** → **Session pooler** → URI, med databasepassordet satt inn. |
+| `PAYLOAD_SECRET` | Hemmelig nøkkel Payload bruker til innlogging. En lang, tilfeldig tekst. |
+| `S3_BUCKET` | Navnet på bucketen i Supabase Storage (`media`). Bucketen skal være privat. |
+| `S3_ENDPOINT` | Supabase → Project Settings → Storage → S3 Connection → Endpoint |
+| `S3_REGION` | Samme sted → Region |
+| `S3_ACCESS_KEY_ID` / `S3_SECRET_ACCESS_KEY` | S3-nøkler fra samme sted. Secret vises bare én gang. |
+| `RESEND_API_KEY` | API-nøkkel fra Resend (Sending access) |
+| `EMAIL_FROM_ADDRESS` | Avsender, `info@gonok.no`. Under testing: `onboarding@resend.dev` (se [E-post under utvikling](#e-post-under-utvikling)). |
+| `EMAIL_FROM_NAME` | Avsendernavn, `Tech Camp for jenter` |
+| `EMAIL_NOTIFY_ADDRESS` | Hvor varsler om påmeldinger og sponsorhenvendelser sendes, og hvor svar på e-poster havner (`info@gonok.no`) |
+| `NEXT_PUBLIC_SERVER_URL` | Nettsidens adresse, brukes i lenker i e-poster. Lokalt: `http://localhost:3000` |
 
-The Payload config is tailored specifically to the needs of most websites. It is pre-configured in the following ways:
+`.env` leses bare når serveren starter – start `npm run dev` på nytt etter endringer.
 
-### Collections
+## Nyttige kommandoer
 
-See the [Collections](https://payloadcms.com/docs/configuration/collections) docs for details on how to extend this functionality.
+| Kommando | Når |
+| --- | --- |
+| `npm run dev` | Starter nettside og admin lokalt |
+| `npm run generate:types` | Etter endring av felter i collections eller globals. Oppdaterer `src/payload-types.ts`. |
+| `npm run generate:importmap` | Etter at en egen komponent er lagt til i admin (f.eks. i `payload.config.ts` under `admin.components`) |
+| `npx tsc --noEmit` | Sjekker TypeScript-feil |
+| `npm run lint` | Sjekker kodefeil med ESLint. Kjør før hver Pull Request. |
+| `npm run build` | Bygger produksjonsversjonen (det Vercel kjører) |
 
-- #### Users (Authentication)
+## Mappestruktur
 
-  Users are auth-enabled collections that have access to the admin panel.
+```
+src/
+├─ payload.config.ts          ← hjernen: database, collections, globals, e-post, admin
+├─ payload-types.ts           ← genereres automatisk – ikke rediger
+├─ access/roles.ts            ← rollene og tilgangsreglene
+├─ collections/               ← Users, Media, Sponsors, SponsorInquiries, Camps, Registrations
+├─ globals/                   ← HomePage (Forside), AboutPage (Om oss), SiteSettings (Sosiale medier)
+├─ hooks/registrationHooks.ts ← sperre mot overbooking + e-post ved statusendring
+├─ endpoints/                 ← /api/registrations/export (deltakerliste som Excel)
+├─ emails/                    ← e-postmal og alle e-postene
+├─ utilities/                 ← datoformatering, påmeldingsregler, fokuspunkt for bilder
+├─ components/                ← Header, Footer, Reveal (animasjon) og komponenter per side
+│  ├─ admin/                  ← egne komponenter i admin (logo, velkomst, oversikt, tilbake, logg ut)
+│  └─ forms/                  ← felles skjemafelt og feiloppsummering
+└─ app/
+   ├─ (frontend)/             ← nettsiden: /, /om-oss, /sponsorer, /bli-sponsor, /pamelding, /pamelding/[slug]
+   └─ (payload)/              ← admin og API (genereres av Payload – ikke rediger, unntatt custom.scss)
+public/                       ← logo.png (logo, favicon og robot)
+```
 
-  For additional help, see the official [Auth Example](https://github.com/payloadcms/payload/tree/3.x/examples/auth) or the [Authentication](https://payloadcms.com/docs/authentication/overview#authentication-overview) docs.
+**Konvensjoner:** All kode (variabler, funksjoner, klassenavn, filnavn) er på engelsk. Kommentarer og tekst som vises på siden eller i admin, er på norsk. Skriftstørrelser skrives i `rem`, avstander i `px`. Felles farger og fonter ligger som CSS-variabler i `src/app/(frontend)/styles.css`.
 
-- #### Media
+## Admin: innhold og roller
 
-  This is the uploads enabled collection. It features pre-configured sizes, focal point and manual resizing to help you manage your pictures.
+| Rolle | Kan |
+| --- | --- |
+| **Administrator** | Alt: brukere og roller, camper, påmeldinger, nettsideinnhold |
+| **Påmeldingsansvarlig** | Påmeldinger og ventelister: se, endre status og laste ned deltakerlister |
+| **Redaktør** | Nettsiden (Forside, Om oss, Sponsorer, Bilder, Sosiale medier) og sponsorhenvendelser |
 
-### Docker
+- Bare administratorer kan gi roller. Alle kan endre sitt eget passord.
+- Menyen viser bare det rollen har tilgang til, og reglene gjelder også API-et.
+- Rollen lagres i innloggingen. Endres en rolle, må brukeren logge ut og inn igjen.
 
-Alternatively, you can use [Docker](https://www.docker.com) to spin up this template locally. To do so, follow these steps:
+**Hvor innholdet redigeres:** Sider → Forside / Om oss · Innhold → Sponsorer / Sponsorhenvendelser · Bilder · Påmelding → Camper / Påmeldinger · Administrasjon → Brukere / Sosiale medier.
 
-1. Follow [steps 1 and 2 from above](#development), the docker-compose file will automatically use the `.env` file in your project root
-1. Next run `docker-compose up`
-1. Follow [steps 4 and 5 from above](#development) to login and create your first admin user
+Bilder lastes opp under **Bilder** og lagres i Supabase Storage. Velg gjerne et **fokuspunkt**, så beskjæres bildet riktig på mobil.
 
-That's it! The Docker instance will help you get up and running quickly while also standardizing the development environment across your teams.
+## Påmelding
 
-## Questions
+1. Hver camp (navn, adresse som `sandefjord`, datoer, frist, antall plasser) legges inn under **Påmelding → Camper**.
+2. Skjemaet ligger på `/pamelding/<adresse>`. Serveren sjekker alle felt, alder 13–16 på campens startdato, frist og duplikater (samme e-post, eller samme navn og fødselsdato, på samme camp).
+3. Er campen full, havner deltakeren på **venteliste**. Etter lagring telles det på nytt, så det aldri blir flere påmeldte enn plasser.
+4. Deltaker og foresatt får bekreftelse på e-post, og Go'nok får et varsel (uten helseopplysninger).
+5. I admin: endres status fra **Venteliste** til **Påmeldt**, sendes «Du har fått plass» – men bare hvis det er ledig plass. Settes status til **Avmeldt**, sendes bekreftelse på avmelding.
+6. Deltakerlister og ventelister lastes ned som Excel fra dashboardet. Ingenting lagres på serveren.
 
-If you have any issues or questions, reach out to us on [Discord](https://discord.com/invite/payload) or start a [GitHub discussion](https://github.com/payloadcms/payload/discussions).
+Feltene i en påmelding kan ikke endres etter innsending – bare status.
+
+## E-post under utvikling
+
+Før `gonok.no` er verifisert i Resend, kan Resend **bare sende fra `onboarding@resend.dev` og bare til e-postadressen Resend-kontoen er registrert med**. Bruk den adressen som deltaker, foresatt og `EMAIL_NOTIFY_ADDRESS` når du tester. Feiler en e-post, er påmeldingen likevel lagret, og feilen står i terminalen.
+
+## Arbeidsflyt med git
+
+- `main` er versjonen som publiseres. Ingen jobber direkte på `main`.
+- Lag én branch per oppgave fra en oppdatert `main`: `feature/...` for nye ting, `docs/...` for dokumentasjon.
+- Kjør `npx tsc --noEmit` og `npm run lint` før du lager en **Pull Request** til `main`.
+- **Stopp dev-serveren før du bytter branch eller puller**, ellers kan den skrive om genererte filer midt i byttet.
+
+## Fallgruver
+
+- **Nye påkrevde felt på data som finnes fra før:** Et felt med `required: true` blir en «aldri tom»-kolonne i databasen. Finnes det allerede rader, feiler oppdateringen, eller Payload vil slette radene. Svar **N** på advarsler om datatap. Gjør feltet valgfritt, eller fyll inn verdier først.
+- **Endringer vises ikke:** Prøv Ctrl+F5. Endringer i `.env` krever omstart av `npm run dev`.
+- **Feil om manglende komponent i admin:** Kjør `npm run generate:importmap`.
+- **TypeScript kjenner ikke nye felter:** Kjør `npm run generate:types`.
+- **Linjeskift:** `.gitattributes` sørger for like linjeskift (LF) i git på tvers av Windows og andre systemer.
+
+## Deploy
+
+Kommer. Før lansering må dette på plass:
+
+- [ ] Migrasjoner i stedet for automatisk databaseoppdatering
+- [ ] Caching som oppdateres når innhold lagres i admin
+- [ ] Direkte opplasting til Supabase for store filer (Vercels grense er ca. 4,5 MB)
+- [ ] Vercel i EU-region, med miljøvariablene over
+- [ ] `gonok.no` verifisert i Resend
+- [ ] Personvernerklæring på `/personvern`, og automatisk sletting av påmeldinger ett år etter campen
+- [ ] Gjennomgang av `npm audit`
