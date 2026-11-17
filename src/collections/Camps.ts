@@ -1,5 +1,7 @@
 import type { CollectionConfig } from 'payload'
 
+import { hasRole, isAdmin } from '@/access/roles'
+
 /**
  * Campene man kan melde seg på (f.eks. Sandefjord og Tønsberg).
  * Datoer, frist og antall plasser endres her – ingen kodeendring neste år.
@@ -9,12 +11,16 @@ export const Camps: CollectionConfig = {
   labels: { singular: 'Camp', plural: 'Camper' },
   admin: {
     group: 'Påmelding',
+    hidden: ({ user }) => !hasRole(user, 'admin'), // bare administrator ser og endrer camper
     useAsTitle: 'name',
     defaultColumns: ['name', 'startDate', 'registrationDeadline', 'capacity'],
   },
   defaultSort: 'startDate', // tidligste camp først
   access: {
     read: () => true, // offentlig: vises på /pamelding
+    create: isAdmin,
+    update: isAdmin,
+    delete: isAdmin,
   },
   fields: [
     {

@@ -1,6 +1,8 @@
 import ExcelJS from 'exceljs'
 import type { Endpoint } from 'payload'
 
+import { hasRole } from '@/access/roles'
+
 import type { Registration } from '@/payload-types'
 
 const STATUS_LABELS: Record<Registration['status'], string> = {
@@ -43,9 +45,12 @@ export const exportRegistrations: Endpoint = {
   path: '/export', // blir /api/registrations/export fordi den ligger på Registrations
   method: 'get',
   handler: async (req) => {
-    // Bare innloggede (sjekkes også av access-reglene i spørringen under)
+    // Bare administrator og påmeldingsansvarlig (sjekkes også av access-reglene i spørringen under)
     if (!req.user) {
       return Response.json({ error: 'Du må være logget inn.' }, { status: 401 })
+    }
+    if (!hasRole(req.user, 'admin', 'registrationManager')) {
+      return Response.json({ error: 'Du har ikke tilgang til deltakerlister.' }, { status: 403 })
     }
 
     const campId = Number(req.searchParams.get('camp'))

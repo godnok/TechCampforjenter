@@ -2,6 +2,7 @@ import config from '@payload-config'
 import Link from 'next/link'
 import { getPayload } from 'payload'
 
+import { hasRole } from '@/access/roles'
 import { formatDateRange } from '@/utilities/formatDateRange'
 import { countRegistered } from '@/utilities/registration'
 import styles from './RegistrationOverview.module.css'
@@ -13,7 +14,14 @@ import styles from './RegistrationOverview.module.css'
  *
  * Dette er en asynkron serverkomponent – den henter tallene direkte fra databasen.
  */
-export async function RegistrationOverview() {
+type Props = {
+  user?: { role?: string | null } | null // sendes inn av Payload
+}
+
+export async function RegistrationOverview({ user }: Props) {
+  // Bare administrator og påmeldingsansvarlig ser påmeldingsoversikten
+  if (!hasRole(user, 'admin', 'registrationManager')) return null
+
   const payload = await getPayload({ config })
   const { docs: camps } = await payload.find({
     collection: 'camps',

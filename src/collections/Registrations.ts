@@ -1,5 +1,7 @@
 import type { CollectionConfig, FieldAccess } from 'payload'
 
+import { canManageRegistrations, hasRole } from '@/access/roles'
+
 import { exportRegistrations } from '@/endpoints/exportRegistrations'
 import { preventOverbooking, sendStatusEmails } from '@/hooks/registrationHooks'
 
@@ -18,6 +20,7 @@ export const Registrations: CollectionConfig = {
   labels: { singular: 'Påmelding', plural: 'Påmeldinger' },
   admin: {
     group: 'Påmelding',
+    hidden: ({ user }) => !hasRole(user, 'admin', 'registrationManager'),
     useAsTitle: 'participantName',
     defaultColumns: ['participantName', 'camp', 'status', 'createdAt'],
   },
@@ -29,11 +32,11 @@ export const Registrations: CollectionConfig = {
   },
   access: {
     // Skjemaet lagrer via Local API (Server Action), som hopper over disse reglene.
-    // Det offentlige API-et er stengt for alle som ikke er logget inn.
-    create: ({ req }) => Boolean(req.user),
-    read: ({ req }) => Boolean(req.user),
-    update: ({ req }) => Boolean(req.user),
-    delete: ({ req }) => Boolean(req.user),
+    // Bare administrator og påmeldingsansvarlig har tilgang til påmeldingene.
+    create: canManageRegistrations,
+    read: canManageRegistrations,
+    update: canManageRegistrations,
+    delete: canManageRegistrations,
   },
   fields: [
     {

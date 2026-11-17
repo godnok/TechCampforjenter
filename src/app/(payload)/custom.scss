@@ -39,3 +39,24 @@ html[data-theme='light'] {
     cursor: default; // vanlig pil, så feltene ikke ser redigerbare ut
   }
 }
+
+// Mer luft i admin-menyen, så gruppene ikke presses mot bunnfeltet
+.nav-group {
+  margin-bottom: 24px; // Payloads standard er 10px
+}
+
+.nav__wrap {
+  padding-bottom: 32px; // luft mellom siste gruppe og bunnfeltet
+}
+
+// Bunnfeltet med «Logg ut»: tynn strek over, så det skilles fra menyen
+.nav__controls {
+  padding-top: 20px;
+  border-top: 1px solid var(--theme-elevation-100);
+}
+
+// Dashboardet: luft under de siste kortene (f.eks. «Forside» og «Om oss» under «Sider»),
+// så de ikke står helt nede ved bunnkanten av skjermen
+.collections {
+  padding-bottom: 80px;
+}

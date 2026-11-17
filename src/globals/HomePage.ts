@@ -1,5 +1,7 @@
 import type { GlobalConfig } from 'payload'
 
+import { canEditContent, hasRole } from '@/access/roles'
+
 /**
  * Forsiden er en Global: det finnes bare ett forside-dokument.
  * Feltene legges til seksjon for seksjon (hero → slagord → intro → kort).
@@ -10,9 +12,11 @@ export const HomePage: GlobalConfig = {
   admin: {
     group: 'Sider', // menygruppe i admin
     preview: () => '/', // «Forhåndsvis»-knappen åpner forsiden
+    hidden: ({ user }) => !hasRole(user, 'admin', 'editor'),
   },
   access: {
     read: () => true, // forsideinnholdet er offentlig
+    update: canEditContent, // bare administrator og redaktør kan endre
   },
   fields: [
     {

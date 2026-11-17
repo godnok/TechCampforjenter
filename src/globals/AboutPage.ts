@@ -1,4 +1,6 @@
 import type { GlobalConfig } from 'payload'
+
+import { canEditContent, hasRole } from '@/access/roles'
 import {
   BoldFeature,
   InlineToolbarFeature,
@@ -16,9 +18,11 @@ export const AboutPage: GlobalConfig = {
   admin: {
     group: 'Sider',
     preview: () => '/om-oss',
+    hidden: ({ user }) => !hasRole(user, 'admin', 'editor'),
   },
   access: {
     read: () => true,
+    update: canEditContent, // bare administrator og redaktør kan endre
   },
   fields: [
     {

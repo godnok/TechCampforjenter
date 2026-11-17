@@ -1,5 +1,7 @@
 import type { CollectionBeforeChangeHook, CollectionConfig } from 'payload'
 
+import { canEditContent, hasRole } from '@/access/roles'
+
 /**
  * Hook som kjører rett før en sponsor lagres.
  * Når en NY sponsor opprettes uten rekkefølge-tall, finner vi høyeste tall
@@ -34,6 +36,7 @@ export const Sponsors: CollectionConfig = {
   labels: { singular: 'Sponsor', plural: 'Sponsorer' },
   admin: {
     group: 'Innhold',
+    hidden: ({ user }) => !hasRole(user, 'admin', 'editor'),
     preview: () => '/sponsorer',
     useAsTitle: 'name', // navnet vises som tittel i admin-listen
     defaultColumns: ['name', 'order', 'website'], // kolonnene i admin-listen
@@ -43,8 +46,10 @@ export const Sponsors: CollectionConfig = {
     beforeChange: [setOrderOnCreate],
   },
   access: {
-    // Alle kan lese. Opprette/endre/slette krever innlogging (Payloads standard).
-    read: () => true,
+    read: () => true, // vises på den offentlige sponsorsiden
+    create: canEditContent,
+    update: canEditContent,
+    delete: canEditContent,
   },
   fields: [
     {
