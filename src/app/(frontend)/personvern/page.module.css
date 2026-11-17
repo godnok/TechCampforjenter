@@ -1,0 +1,76 @@
+/* Lesevennlig tekstside: smal kolonne og god linjeavstand */
+.page {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 60px var(--page-padding) 100px;
+}
+
+.title {
+  font-size: 2.25rem;
+  margin-bottom: 8px;
+}
+
+.updated {
+  margin: 0 0 40px;
+  font-size: 0.9375rem;
+  color: #555555;
+}
+
+.placeholder {
+  font-size: 1.125rem;
+  line-height: 1.6;
+}
+
+/* Innholdet fra editoren. :global fordi RichText lager vanlige HTML-elementer uten våre klasser. */
+.content :global(h2) {
+  margin: 40px 0 12px;
+  font-size: 1.5rem;
+}
+
+.content :global(h3) {
+  margin: 28px 0 8px;
+  font-size: 1.25rem;
+}
+
+.content :global(p),
+.content :global(li) {
+  font-size: 1.0625rem;
+  line-height: 1.6;
+}
+
+.content :global(p) {
+  margin: 0 0 16px;
+}
+
+.content :global(ul),
+.content :global(ol) {
+  margin: 0 0 16px;
+  padding-left: 24px;
+}
+
+.content :global(li) {
+  margin-bottom: 6px;
+}
+
+.content :global(a) {
+  color: var(--color-focus); /* mørk rosa med god kontrast */
+}
+
+@media (max-width: 768px) {
+  .page {
+    padding: 32px var(--page-padding) 56px;
+  }
+
+  .title {
+    font-size: 1.5rem;
+  }
+
+  .content :global(h2) {
+    font-size: 1.25rem;
+  }
+
+  .content :global(p),
+  .content :global(li) {
+    font-size: 1rem;
+  }
+}

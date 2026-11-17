@@ -1,4 +1,5 @@
 import config from '@payload-config'
+import Link from 'next/link'
 import { getPayload } from 'payload'
 import type { IconType } from 'react-icons'
 import {
@@ -65,6 +66,9 @@ export async function Footer() {
       )}
 
       <p>Go&apos;nok sin Tech camp for jenter © {year}</p>
+      <Link href="/personvern" className={styles.privacyLink}>
+        Personvern
+      </Link>
     </footer>
   )
 }

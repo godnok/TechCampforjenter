@@ -98,11 +98,13 @@ export interface Config {
   globals: {
     'home-page': HomePage;
     'about-page': AboutPage;
+    'privacy-page': PrivacyPage;
     'site-settings': SiteSetting;
   };
   globalsSelect: {
     'home-page': HomePageSelect<false> | HomePageSelect<true>;
     'about-page': AboutPageSelect<false> | AboutPageSelect<true>;
+    'privacy-page': PrivacyPageSelect<false> | PrivacyPageSelect<true>;
     'site-settings': SiteSettingsSelect<false> | SiteSettingsSelect<true>;
   };
   locale: null;
@@ -607,6 +609,35 @@ export interface AboutPage {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "privacy-page".
+ */
+export interface PrivacyPage {
+  id: number;
+  title: string;
+  /**
+   * Vises øverst på siden. Oppdater datoen hver gang erklæringen endres.
+   */
+  lastUpdated?: string | null;
+  content?: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "site-settings".
  */
 export interface SiteSetting {
@@ -682,6 +713,18 @@ export interface AboutPageSelect<T extends boolean = true> {
         id?: T;
       };
   quote?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "privacy-page_select".
+ */
+export interface PrivacyPageSelect<T extends boolean = true> {
+  title?: T;
+  lastUpdated?: T;
+  content?: T;
   updatedAt?: T;
   createdAt?: T;
   globalType?: T;
