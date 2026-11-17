@@ -43,6 +43,9 @@ export default buildConfig({
         '/components/admin/RegistrationOverview#RegistrationOverview',
       ],
       header: ['/components/admin/BackLink#BackLink'], // tilbakelenke øverst på admin-sidene
+      logout: {
+        Button: '/components/admin/LogoutButton#LogoutButton', // tydelig «Logg ut» med tekst
+      },
     },
   },
   // Admin-panelet på norsk (bokmål)

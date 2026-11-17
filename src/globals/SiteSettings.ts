@@ -1,16 +1,20 @@
 import type { GlobalConfig } from 'payload'
 
+import { canEditContent, hasRole } from '@/access/roles'
+
 /**
  * Innstillinger som gjelder hele nettsiden, f.eks. lenker til sosiale medier i footeren.
  */
 export const SiteSettings: GlobalConfig = {
   slug: 'site-settings',
-  label: 'Innstillinger',
+  label: 'Sosiale medier', // det som vises i admin-menyen
   admin: {
     group: 'Administrasjon',
+    hidden: ({ user }) => !hasRole(user, 'admin', 'editor'),
   },
   access: {
-    read: () => true,
+    read: () => true, // brukes i footeren på den offentlige nettsiden
+    update: canEditContent,
   },
   fields: [
     {

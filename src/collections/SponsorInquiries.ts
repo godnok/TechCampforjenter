@@ -1,5 +1,7 @@
 import type { CollectionConfig } from 'payload'
 
+import { canEditContent, hasRole } from '@/access/roles'
+
 /**
  * Henvendelser fra skjemaet på /bli-sponsor.
  * Inneholder personopplysninger, så bare innloggede admin-brukere kan se dem.
@@ -9,17 +11,19 @@ export const SponsorInquiries: CollectionConfig = {
   labels: { singular: 'Sponsorhenvendelse', plural: 'Sponsorhenvendelser' },
   admin: {
     group: 'Innhold',
+    hidden: ({ user }) => !hasRole(user, 'admin', 'editor'),
     useAsTitle: 'company',
     defaultColumns: ['company', 'name', 'status', 'createdAt'],
   },
   defaultSort: '-createdAt', // nyeste først
   access: {
     // Det offentlige API-et kan ikke opprette henvendelser – bare skjemaet (Server Action) kan,
-    // fordi Local API-et i actions.ts hopper over disse reglene. Admin-brukere kan også opprette.
-    create: ({ req }) => Boolean(req.user),
-    read: ({ req }) => Boolean(req.user),
-    update: ({ req }) => Boolean(req.user),
-    delete: ({ req }) => Boolean(req.user),
+    // fordi Local API-et i actions.ts hopper over disse reglene.
+    // Administrator og redaktør kan se og håndtere henvendelsene.
+    create: canEditContent,
+    read: canEditContent,
+    update: canEditContent,
+    delete: canEditContent,
   },
   fields: [
     // Feltene fra skjemaet kan ikke endres etter innsending (update: () => false).
