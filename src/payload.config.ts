@@ -1,4 +1,5 @@
 import { postgresAdapter } from '@payloadcms/db-postgres'
+import { resendAdapter } from '@payloadcms/email-resend'
 import { lexicalEditor } from '@payloadcms/richtext-lexical'
 import { s3Storage } from '@payloadcms/storage-s3'
 import { nb } from '@payloadcms/translations/languages/nb'
@@ -62,6 +63,13 @@ export default buildConfig({
     },
   }),
   sharp,
+  // E-post sendes via Resend. Avsender og nøkkel ligger i .env.
+  // Gir også Payloads egen «Glemt passord» i admin.
+  email: resendAdapter({
+    defaultFromAddress: process.env.EMAIL_FROM_ADDRESS || 'onboarding@resend.dev',
+    defaultFromName: process.env.EMAIL_FROM_NAME || 'Tech Camp for jenter',
+    apiKey: process.env.RESEND_API_KEY || '',
+  }),
   plugins: [
     // Lagrer opplastede filer i Supabase Storage i stedet for på disken.
     // Supabase Storage er S3-kompatibelt, så vi bruker Payloads S3-plugin.

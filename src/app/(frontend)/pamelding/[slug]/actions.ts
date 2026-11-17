@@ -4,6 +4,12 @@
 import config from '@payload-config'
 import { getPayload } from 'payload'
 
+import {
+  guardianEmail,
+  participantEmail,
+  registrationNotificationEmail,
+} from '@/emails/registrationEmails'
+import { sendEmails } from '@/emails/sendEmails'
 import type { Camp } from '@/payload-types'
 import {
   countRegistered,
@@ -224,6 +230,15 @@ export async function submitRegistration(
         result = 'waitlist'
       }
     }
+
+    // ---------- E-post: bekreftelse til deltaker og foresatt, varsel til Go'nok ----------
+    // Sendes etter dobbeltsjekken, så de får riktig beskjed (plass eller venteliste)
+    const emails = [participantEmail(created, camp, result), guardianEmail(created, camp, result)]
+    const notifyAddress = process.env.EMAIL_NOTIFY_ADDRESS
+    if (notifyAddress) {
+      emails.push(registrationNotificationEmail(created, camp, result, notifyAddress))
+    }
+    await sendEmails(payload, emails)
 
     return { status: 'success', result }
   } catch (error) {
