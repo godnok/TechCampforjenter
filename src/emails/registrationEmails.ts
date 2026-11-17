@@ -115,9 +115,12 @@ export function guardianEmail(registration: Registration, camp: Camp, result: Re
     paragraph(intro),
     paragraph('Her er opplysningene som ble sendt inn:'),
     detailsTable(details),
-    paragraph(
-      'Før campen sender vi et skjema for <strong>bildesamtykke</strong> som må signeres av foresatt. Praktisk informasjon kommer også på e-post nærmere campen.',
-    ),
+    // Bildesamtykke og praktisk info gjelder bare de som har fått plass – ikke venteliste
+    result === 'registered'
+      ? paragraph(
+          'Før campen sender vi et skjema for <strong>bildesamtykke</strong> som må signeres av foresatt. Praktisk informasjon kommer også på e-post nærmere campen.',
+        )
+      : '',
     paragraph('Er noe feil, eller ønsker dere å melde av? Svar på denne e-posten.'),
     `<p style="margin:0;font-size:13px;color:#555555;">Opplysningene slettes ett år etter campen. Les mer i <a href="${getSiteUrl()}/personvern" style="color:#c4237f;">personvernerklæringen</a>.</p>`,
   ].join('')
@@ -130,7 +133,11 @@ export function guardianEmail(registration: Registration, camp: Camp, result: Re
       `Hei ${registration.guardianName}!`,
       introText,
       `Her er opplysningene som ble sendt inn:\n${detailsText(details)}`,
-      'Før campen sender vi et skjema for bildesamtykke som må signeres av foresatt. Praktisk informasjon kommer også på e-post nærmere campen.',
+      ...(result === 'registered'
+        ? [
+            'Før campen sender vi et skjema for bildesamtykke som må signeres av foresatt. Praktisk informasjon kommer også på e-post nærmere campen.',
+          ]
+        : []),
       'Er noe feil, eller ønsker dere å melde av? Svar på denne e-posten.',
       `Opplysningene slettes ett år etter campen. Personvernerklæring: ${getSiteUrl()}/personvern`,
     ].join('\n\n'),
@@ -167,4 +174,93 @@ export function registrationNotificationEmail(
     html: emailLayout({ title: subject, bodyHtml: body }),
     text: `Ny påmelding\n\n${detailsText(rows)}\n\nSe påmeldingen i admin: ${adminUrl}`,
   }
+}
+
+/** Felles hjelper: lager HTML- og tekstversjon av en enkel e-post med avsnitt */
+function simpleEmail(to: string, subject: string, greeting: string, paragraphs: string[]): Email {
+  return {
+    to,
+    subject,
+    html: emailLayout({
+      title: subject,
+      bodyHtml: [heading(greeting), ...paragraphs.map((text) => paragraph(text))].join(''),
+    }),
+    // Fjern HTML-tagger (<strong> o.l.) og gjør &amp; tilbake til & i tekstversjonen
+    text: [greeting, ...paragraphs]
+      .map((text) =>
+        text
+          .replace(/<[^>]+>/g, '')
+          .replace(/&amp;/g, '&')
+          .replace(/&lt;/g, '<')
+          .replace(/&gt;/g, '>')
+          .replace(/&quot;/g, '"')
+          .replace(/&#39;/g, "'"),
+      )
+      .join('\n\n'),
+  }
+}
+
+/**
+ * «Du har fått plass!» – sendes når status endres fra Venteliste til Påmeldt i admin.
+ * Til både deltaker og foresatt.
+ */
+export function spotOfferedEmails(registration: Registration, camp: Camp): Email[] {
+  const participant = escapeHtml(registration.participantName)
+  const campName = escapeHtml(camp.name)
+  const when = escapeHtml(whenAndWhere(camp))
+
+  return [
+    simpleEmail(
+      registration.participantEmail,
+      `Du har fått plass på ${camp.name}!`,
+      `Hei ${registration.participantName}!`,
+      [
+        `Det har blitt ledig plass, og du er nå <strong>påmeldt ${campName}</strong>, ${when}. Vi gleder oss til å se deg!`,
+        'Praktisk informasjon, som oppmøtetid og hva du skal ha med, kommer på e-post nærmere campen.',
+        'Har du spørsmål? Bare svar på denne e-posten.',
+      ],
+    ),
+    simpleEmail(
+      registration.guardianEmail,
+      `Plass bekreftet: ${registration.participantName} – ${camp.name}`,
+      `Hei ${registration.guardianName}!`,
+      [
+        `Det har blitt ledig plass, og <strong>${participant}</strong> er nå påmeldt <strong>${campName}</strong>, ${when}.`,
+        'Før campen sender vi et skjema for <strong>bildesamtykke</strong> som må signeres av foresatt. Praktisk informasjon kommer også på e-post nærmere campen.',
+        'Ønsker dere likevel ikke plassen? Svar på denne e-posten så snart som mulig, så kan vi gi den til nestemann på ventelisten.',
+      ],
+    ),
+  ]
+}
+
+/**
+ * Bekreftelse på avmelding – sendes når status settes til Avmeldt i admin.
+ * Til både deltaker og foresatt.
+ */
+export function cancellationEmails(registration: Registration, camp: Camp): Email[] {
+  const participant = escapeHtml(registration.participantName)
+  const campName = escapeHtml(camp.name)
+  const when = escapeHtml(whenAndWhere(camp))
+
+  return [
+    simpleEmail(
+      registration.participantEmail,
+      `Avmelding fra ${camp.name}`,
+      `Hei ${registration.participantName}!`,
+      [
+        `Vi har registrert at du er <strong>meldt av ${campName}</strong> (${when}).`,
+        'Ombestemmer du deg, er du velkommen til å melde deg på igjen så lenge påmeldingen er åpen.',
+        'Er dette feil? Svar på denne e-posten.',
+      ],
+    ),
+    simpleEmail(
+      registration.guardianEmail,
+      `Avmelding: ${registration.participantName} – ${camp.name}`,
+      `Hei ${registration.guardianName}!`,
+      [
+        `Vi har registrert at <strong>${participant}</strong> er meldt av <strong>${campName}</strong> (${when}).`,
+        'Er dette feil? Svar på denne e-posten.',
+      ],
+    ),
+  ]
 }

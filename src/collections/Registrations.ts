@@ -1,5 +1,7 @@
 import type { CollectionConfig, FieldAccess } from 'payload'
 
+import { preventOverbooking, sendStatusEmails } from '@/hooks/registrationHooks'
+
 // Feltene fra skjemaet kan ikke endres etter innsending – verken i admin eller via API.
 // Bare «Status» kan endres. Utseendet på låste felt justeres i src/app/(payload)/custom.scss.
 const locked: { update: FieldAccess } = { update: () => false }
@@ -19,6 +21,10 @@ export const Registrations: CollectionConfig = {
     defaultColumns: ['participantName', 'camp', 'status', 'createdAt'],
   },
   defaultSort: '-createdAt',
+  hooks: {
+    beforeChange: [preventOverbooking], // sperre: ikke flere påmeldte enn plasser
+    afterChange: [sendStatusEmails], // e-post ved «fått plass» og avmelding
+  },
   access: {
     // Skjemaet lagrer via Local API (Server Action), som hopper over disse reglene.
     // Det offentlige API-et er stengt for alle som ikke er logget inn.

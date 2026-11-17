@@ -22,7 +22,7 @@
 .card {
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  gap: 12px;
   height: 100%;
   padding: 20px 24px;
   border: 1px solid var(--theme-elevation-150);
@@ -40,7 +40,31 @@
   border-color: #fa6fc6;
 }
 
-.card:focus-visible {
+/* Hovedlenken: navn, dato og tall */
+.mainLink {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  color: inherit;
+  text-decoration: none;
+  border-radius: 6px;
+}
+
+.mainLink:hover .name {
+  text-decoration: underline;
+}
+
+/* «Se ventelisten» */
+.waitlistLink {
+  align-self: flex-start;
+  color: inherit;
+  font-size: 0.9375rem;
+  font-weight: 600;
+  border-radius: 6px;
+}
+
+.mainLink:focus-visible,
+.waitlistLink:focus-visible {
   outline: 3px solid #c4237f;
   outline-offset: 4px;
 }

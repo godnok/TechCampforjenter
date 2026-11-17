@@ -47,11 +47,11 @@ export async function RegistrationOverview() {
       <h2>Påmeldinger</h2>
       <ul className={styles.list}>
         {stats.map(({ camp, registered, waitlist }) => (
-          <li key={camp.id}>
+          <li key={camp.id} className={styles.card}>
             {/* ?where[camp][equals]=… er Payloads eget filter i listevisningen */}
             <Link
               href={`/admin/collections/registrations?where[camp][equals]=${camp.id}`}
-              className={styles.card}
+              className={styles.mainLink}
             >
               <span className={styles.name}>{camp.name}</span>
               <span className={styles.date}>{formatDateRange(camp.startDate, camp.endDate)}</span>
@@ -59,6 +59,16 @@ export async function RegistrationOverview() {
                 {registered} av {camp.capacity} påmeldt · {waitlist} på venteliste
               </span>
             </Link>
+
+            {/* Ventelisten for campen, eldste påmelding først – den som står for tur øverst */}
+            {waitlist > 0 && (
+              <Link
+                href={`/admin/collections/registrations?where[and][0][camp][equals]=${camp.id}&where[and][1][status][equals]=waitlist&sort=createdAt`}
+                className={styles.waitlistLink}
+              >
+                Se ventelisten ({waitlist}) <span aria-hidden="true">→</span>
+              </Link>
+            )}
           </li>
         ))}
       </ul>
