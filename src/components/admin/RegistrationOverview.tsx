@@ -69,6 +69,24 @@ export async function RegistrationOverview() {
                 Se ventelisten ({waitlist}) <span aria-hidden="true">→</span>
               </Link>
             )}
+
+            {/* Nedlasting: vanlige <a>-lenker, siden de laster ned en fil i stedet for å åpne en side */}
+            <div className={styles.downloads}>
+              <a
+                href={`/api/registrations/export?camp=${camp.id}&status=registered`}
+                className={styles.downloadLink}
+              >
+                Last ned deltakerliste
+              </a>
+              {waitlist > 0 && (
+                <a
+                  href={`/api/registrations/export?camp=${camp.id}&status=waitlist`}
+                  className={styles.downloadLink}
+                >
+                  Last ned venteliste
+                </a>
+              )}
+            </div>
           </li>
         ))}
       </ul>

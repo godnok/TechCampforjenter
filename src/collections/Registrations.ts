@@ -1,5 +1,6 @@
 import type { CollectionConfig, FieldAccess } from 'payload'
 
+import { exportRegistrations } from '@/endpoints/exportRegistrations'
 import { preventOverbooking, sendStatusEmails } from '@/hooks/registrationHooks'
 
 // Feltene fra skjemaet kan ikke endres etter innsending – verken i admin eller via API.
@@ -21,6 +22,7 @@ export const Registrations: CollectionConfig = {
     defaultColumns: ['participantName', 'camp', 'status', 'createdAt'],
   },
   defaultSort: '-createdAt',
+  endpoints: [exportRegistrations], // /api/registrations/export – deltakerliste som CSV
   hooks: {
     beforeChange: [preventOverbooking], // sperre: ikke flere påmeldte enn plasser
     afterChange: [sendStatusEmails], // e-post ved «fått plass» og avmelding
